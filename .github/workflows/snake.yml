@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: # <--- 添加的部分从这里开始
+      contents: write # <--- 这一行是关键，授予写入权限
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
