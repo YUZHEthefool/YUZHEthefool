@@ -32,6 +32,16 @@
 
 ---
 
+### 🕶️ My Coding Habits & Weekly Report
+
+<p align="center">
+  <a href="https://github.com/lowlighter/metrics">
+    <img src="https://metrics.lecoq.io/YUZHEthefool?template=classic&config_timezone=Asia/Shanghai&habits=1&habits.from=200&habits.days=14&habits.charts=indepth&wakatime=1&wakatime.days=7&wakatime.sections=languages,editors,os&wakatime.api_key=encodeURIComponent(waka_ab816283-b585-4347-af44-7c2190985213)" alt="Metrics" />
+  </a>
+</p>
+
+---
+
 ### 📊 My GitHub Stats
 
 <p align="center">
