@@ -32,13 +32,14 @@
 
 ---
 
-### 🧱 My Contribution Graph
+### 🏙️ My Contribution Skyline
 
 <p align="center">
   <a href="https://github.com/YUZHEthefool">
-    <img src="https://isometric.online/user?user=YUZHEthefool" alt="Isometric Contribution Calendar" />
+    <img src="https://github-profile-3d-contrib.vercel.app/api?username=YUZHEthefool&theme=github_dark" alt="My 3D Contribution Graph" />
   </a>
 </p>
+
 
 
 ---
