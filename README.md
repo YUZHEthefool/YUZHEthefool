@@ -13,19 +13,26 @@
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=rust,python,go,java,pytorch,tensorflow,huggingface,docker,linux,qemu" />
+    <img src="https://skillicons.dev/icons?i=rust,python,go,java,pytorch,docker,linux,qemu" />
   </a>
 </p>
 
 ---
 
-### 🏙️ My Contribution Skyline
+### 🐍 My Contribution Snake
 
 <p align="center">
   <a href="https://github.com/YUZHEthefool">
-    <img src="https://github-profile-3d-contrib.vercel.app/api?username=YUZHEthefool&theme=github_dark" alt="My 3D Contribution Graph" />
+    <picture>
+      <!-- Dark mode version -->
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake-dark.svg" />
+      <!-- Light mode version -->
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
+      <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
+    </picture>
   </a>
 </p>
+
 
 ---
 
