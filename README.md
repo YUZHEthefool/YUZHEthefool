@@ -9,24 +9,11 @@
 
 ---
 
-### 👨‍💻 What I Do
-
-- 🧠 **Large Language Model Engineer (My Profession):**
-  - Fine-tuning and training massive language models for specific tasks.
-  - Compressing knowledge through **Model Distillation**.
-  - Architecting and building autonomous **AI Agents**.
-
-- ⚙️ **Kernel Developer (My Passion):**
-  - Author of [**Zero-os**](https://github.com/YUZHEthefool/Zero-os), a toy microkernel written from the ground up in pure **Rust**.
-  - Exploring memory management, scheduling, and system calls.
-
----
-
 ### 🛠️ My Tech Stack
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=rust,python,go,java,pytorch,docker,linux,qemu" />
+    <img src="https://skillicons.dev/icons?i=rust,python,go,java,pytorch,tensorflow,huggingface,docker,linux,qemu" />
   </a>
 </p>
 
@@ -40,8 +27,6 @@
   </a>
 </p>
 
-
-
 ---
 
 ### 📊 My GitHub Stats
@@ -49,8 +34,8 @@
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats">
     <!-- Customize the theme here: https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md -->
-    <img src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&count_private=true&hide_border=true&" alt="YUZHEthefool's GitHub stats" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=YUZHEthefool&layout=compact&theme=tokyonight&hide_border=true&" alt="Top Languages" />
+    <img src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&count_private=true&hide_border=true" alt="YUZHEthefool's GitHub stats" />
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=YUZHEthefool&layout=compact&theme=tokyonight&hide_border=true&exclude_repo=cf-flux-remix" alt="Top Languages" />
   </a>
 </p>
 
