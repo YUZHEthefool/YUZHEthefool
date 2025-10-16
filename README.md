@@ -9,7 +9,7 @@
 
 ---
 
-### 🛠️ My Tech Stack
+### 🛠️ My Tech Stac
 
 <p align="center">
   <a href="https://skillicons.dev">
