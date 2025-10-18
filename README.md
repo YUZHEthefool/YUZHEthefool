@@ -49,17 +49,12 @@
 ---
 
 ### 💡 Pinned Project
-
 <p align="center">
-  <a href="https://github.com/YUZHEthefool/Zero-os"><a href="https://github.com/YUZHEthefool/Zero-Compiler">
-    <!-- Customize the theme here: https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md -->
+  <a href="https://github.com/YUZHEthefool/Zero-os">
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-os&theme=tokyonight&hide_border=true" alt="Zero-os Repo Card" />
   </a>
-</p>
-<p align="center">
   <a href="https://github.com/YUZHEthefool/Zero-Compiler">
-    <!-- Customize the theme here: https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md -->
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-os&theme=tokyonight&hide_border=true" alt="Zero-os Repo Card" />
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-Compiler&theme=tokyonight&hide_border=true" alt="Zero-Compiler Repo Card" />
   </a>
 </p>
 
