@@ -48,11 +48,18 @@
 
 ---
 
-### 💡 Pinned Project: Zero-os
+### 💡 Pinned Project
 
 <p align="center">
   My digital playground for OS development. Dive in and explore the code!
   <a href="https://github.com/YUZHEthefool/Zero-os">
+    <!-- Customize the theme here: https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md -->
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-os&theme=tokyonight&hide_border=true" alt="Zero-os Repo Card" />
+  </a>
+</p>
+<p align="center">
+  A simple programming language implemented in Rust.
+  <a href="https://github.com/YUZHEthefool/Zero-Compiler">
     <!-- Customize the theme here: https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md -->
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-os&theme=tokyonight&hide_border=true" alt="Zero-os Repo Card" />
   </a>
