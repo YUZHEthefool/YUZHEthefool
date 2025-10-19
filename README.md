@@ -35,9 +35,12 @@
 
 
 ---
+
 <p align="center">
   <img src="profile-3d-contrib/profile-night-rainbow.svg" alt="GitHub Profile 3D Contrib">
 </p>
+
+---
 
 ### 📊 My GitHub Stats
 
