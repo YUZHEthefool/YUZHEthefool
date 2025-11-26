@@ -1,12 +1,12 @@
+# Visit https://github.com/lowlighter/metrics#-documentation for full reference
 name: Metrics
 on:
-  # 每天午夜运行一次
-  schedule: [{cron: "0 0 * * *"}]
-  # 允许手动触发
+  # 每一小时更新一次 (Schedule updates)
+  schedule: [{cron: "0 * * * *"}]
+  # 允许手动触发 (Lines below let you run workflow manually)
   workflow_dispatch:
-  # 每次 push 到 master/main 分支时运行
+  # 每次 push 到 master 或 main 分支时触发
   push: {branches: ["master", "main"]}
-
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
@@ -15,12 +15,52 @@ jobs:
     steps:
       - uses: lowlighter/metrics@latest
         with:
-          # 你的 GitHub Token (不用修改，GitHub 会自动处理)
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # 注意：这里使用了 METRICS_TOKEN，需要在仓库 Secrets 里配置（下文有说明）
+          token: ${{ secrets.METRICS_TOKEN }}
 
-          # 选项设置
+          # 基础选项
           user: YUZHEthefool
           template: classic
           base: header, activity, community, repositories, metadata
           config_timezone: Asia/Shanghai
           filename: github-metrics.svg
+          
+          # 🧩 Habits 插件 (编码习惯)
+          # 分析你的编码时间段（白天/晚上）和连胜纪录
+          plugin_habits: yes
+          plugin_habits_charts_type: classic
+          plugin_habits_days: 14           # 分析最近14天
+          plugin_habits_facts: yes         # 显示有趣的统计事实
+          plugin_habits_from: 200          # 每次分析多少个事件
+          plugin_habits_languages_limit: 8 
+          plugin_habits_languages_threshold: 0%
+          
+          # 📅 Isocalendar 插件 (等距日历)
+          # 生成那个很酷的“3D方块”年度贡献图
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          
+          # 💻 Languages 插件 (语言分析)
+          # 详细分析你使用的编程语言分布
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming # 统计代码和标记语言
+          plugin_languages_colors: github
+          plugin_languages_limit: 8        # 最多显示8种语言
+          plugin_languages_other: yes      # 将其他语言归类为 Other
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14 # 同时分析最近14天的语言趋势
+          plugin_languages_recent_load: 300
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+          
+          # 🌟 Stargazers 插件 (关注者趋势)
+          # 展示你的仓库获得 Star 的趋势图
+          plugin_stargazers: yes
+          plugin_stargazers_charts: yes
+          plugin_stargazers_charts_type: classic
+          
+          # ⭐ Stars 插件 (你点赞的项目)
+          # 展示你最近 Star 了哪些仓库
+          plugin_stars: yes
+          plugin_stars_limit: 4
