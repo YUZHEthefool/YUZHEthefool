@@ -1,0 +1,26 @@
+name: Metrics
+on:
+  # 每天午夜运行一次
+  schedule: [{cron: "0 0 * * *"}]
+  # 允许手动触发
+  workflow_dispatch:
+  # 每次 push 到 master/main 分支时运行
+  push: {branches: ["master", "main"]}
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # 你的 GitHub Token (不用修改，GitHub 会自动处理)
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # 选项设置
+          user: YUZHEthefool
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Shanghai
+          filename: github-metrics.svg
