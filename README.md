@@ -60,18 +60,19 @@ I'm a developer who operates at both ends of the abstraction spectrum.
 
 ---
 
-## GitHub Stats
+## GitHub Metrics
 
-<p align="center">
-  <a href="https://github.com/anuraghazra/github-readme-stats">
-    <img src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&count_private=true&hide_border=true" alt="YUZHEthefool's GitHub stats" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=YUZHEthefool&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" />
-  </a>
-</p>
+<div align="center">
+
+<!-- 注意：你需要配置 GitHub Action 才能生成这个文件，否则会显示破裂的图片 -->
+<!-- 如果你还没配置，请参考下方的“如何生成 Metrics”说明 -->
+<img src="./github-metrics.svg" alt="Metrics" width="100%">
+
+</div>
 
 ---
 
-## 3D Contribution & Metrics
+## 3D Contribution
 
 <div align="center">
   <img src="profile-3d-contrib/profile-night-rainbow.svg" alt="GitHub Profile 3D Contrib">
