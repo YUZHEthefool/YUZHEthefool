@@ -32,7 +32,7 @@ I'm a developer who operates at both ends of the abstraction spectrum.
 - 🐧 Linux & Docker
 
 **My Belief:**
-> *"First, solve the problem. Then, write the code."*
+> *"Nothing is True, Everything is Permitted."*
 
 </td>
 <td width="50%">
@@ -64,7 +64,7 @@ I'm a developer who operates at both ends of the abstraction spectrum.
 
 <div align="center">
 
-<img src="./github-metrics.svg" alt="Metrics" width="100%">
+<img src="./github-metrics.svg" alt="Metrics" width="65%">
 
 </div>
 
