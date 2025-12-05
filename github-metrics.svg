@@ -397,7 +397,7 @@
                                     </svg>
                                     <div class="name">
                                         <span>YUZHEthefool/Fool</span>
-                                        <span>created 11 days ago</span>
+                                        <span>created 12 days ago</span>
                                     </div>
                                 </div>
                                 <div class="field description">A modern interactive shell written in Rust, driven by a state machine, and natively integrated with AI intelligent assistance.</div>
@@ -2624,7 +2624,7 @@
             </section>
             <footer>
                 <span>These metrics include private contributions</span>
-                <span>Last updated 5 Dec 2025, 15:15:09 (timezone Asia/Shanghai) with lowlighter/metrics@3.34.0</span>
+                <span>Last updated 5 Dec 2025, 16:17:59 (timezone Asia/Shanghai) with lowlighter/metrics@3.34.0</span>
             </footer>
         </div>
         <div xmlns="http://www.w3.org/1999/xhtml" id="metrics-end"></div>
