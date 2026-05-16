@@ -99,7 +99,7 @@ I'm a developer operating at both ends of the abstraction spectrum — **AI** an
 <a href="mailto:thefoolyuzhe@gmail.com">
   <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
 </a>
-<a href="https://thefool.chat/">
+<a href="https://blog.thefool.chat/">
   <img src="https://img.shields.io/badge/Blog-thefool.chat-6366F1?style=for-the-badge&logo=ghost&logoColor=white" alt="Blog"/>
 </a>
 </div>
