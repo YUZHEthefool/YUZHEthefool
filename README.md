@@ -57,7 +57,6 @@ I'm a developer operating at both ends of the abstraction spectrum — **AI** an
 </div>
 
 <br/>
-
 ---
 
 ## GitHub Metrics
