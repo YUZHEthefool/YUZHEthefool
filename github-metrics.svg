@@ -397,7 +397,7 @@
                                     </svg>
                                     <div class="name">
                                         <span>Xero-Team/zpdf</span>
-                                        <span>created 11 days ago</span>
+                                        <span>created 12 days ago</span>
                                     </div>
                                 </div>
                                 <div class="field description">A PDF parsing library written in pure Rust.</div>
@@ -2640,7 +2640,7 @@
             </section>
             <footer>
                 <span>These metrics include private contributions</span>
-                <span>Last updated 7 Jun 2026, 19:01:15 (timezone Asia/Shanghai) with lowlighter/metrics@3.34.0</span>
+                <span>Last updated 7 Jun 2026, 21:21:58 (timezone Asia/Shanghai) with lowlighter/metrics@3.34.0</span>
             </footer>
         </div>
         <div xmlns="http://www.w3.org/1999/xhtml" id="metrics-end"></div>
