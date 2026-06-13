@@ -84,6 +84,9 @@ I'm a developer operating at both ends of the abstraction spectrum — **AI** an
   <a href="https://github.com/YUZHEthefool/Zero-Compiler">
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-Compiler&theme=tokyonight&hide_border=true" alt="Zero-Compiler Repo Card" />
   </a>
+    <a href="https://github.com/Xero-Team/zpdf">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=Xero-Team&repo=zpdf&theme=tokyonight&hide_border=true" alt="zpdf Repo Card" />
+  </a>
 </p>
 
 ---
