@@ -155,7 +155,7 @@ width="100%">
 <img
 align="center"
 alt="Thefool's GitHub Stats"
-src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&hide_border=true&card_width=500"
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&hide_border=true&card_width=500"
 />
 
 </a>
