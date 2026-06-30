@@ -6,13 +6,9 @@ on:
 
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
-      - master
-
 
 jobs:
+
   fetch:
 
     runs-on: ubuntu-latest
@@ -23,11 +19,11 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
 
-      - name: Fetch GitHub Stats SVG
+      - name: Fetch Stats
+
         run: |
 
           curl -L \
@@ -35,17 +31,37 @@ jobs:
           -o github-stats.svg
 
 
-      - name: Commit changes
+
+      - name: Fix SVG XML
+
         run: |
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 << 'EOF'
 
+          from pathlib import Path
+
+          p = Path("github-stats.svg")
+
+          data = p.read_text()
+
+          # 修复裸 &
+          data = data.replace("& ", "&amp; ")
+
+          p.write_text(data)
+
+          EOF
+
+
+
+      - name: Commit
+
+        run: |
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
           git add github-stats.svg
 
-
-          git commit -m "Update GitHub Stats" || exit 0
-
+          git commit -m "Update github stats" || exit 0
 
           git push
