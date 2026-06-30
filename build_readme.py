@@ -213,28 +213,8 @@ def project_card(project: dict[str, str]) -> str:
     ).strip()
 
 
-def project_grid() -> str:
-    rows = []
-    for left, right in zip(PROJECTS[::2], PROJECTS[1::2]):
-        rows.append(
-            "\n".join(
-                [
-                    "<tr>",
-                    '<td width="50%" valign="top">',
-                    "",
-                    project_card(left),
-                    "",
-                    "</td>",
-                    '<td width="50%" valign="top">',
-                    "",
-                    project_card(right),
-                    "",
-                    "</td>",
-                    "</tr>",
-                ]
-            )
-        )
-    return "\n".join(rows)
+def project_cards() -> str:
+    return "\n\n".join(project_card(project) for project in PROJECTS)
 
 
 def project_list() -> str:
@@ -255,7 +235,7 @@ def render_readme() -> str:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     projects_md = indent_block(project_list(), "        ")
     tech_md = indent_block(tech_badges(), "        ")
-    project_grid_md = indent_block(project_grid(), "        ")
+    project_cards_md = indent_block(project_cards(), "        ")
 
     return textwrap.dedent(
         f"""\
@@ -343,16 +323,14 @@ def render_readme() -> str:
 
         <img src="./profile-3d-contrib/profile-night-rainbow.svg" alt="GitHub Profile 3D Contribution" width="100%">
 
+        **Pinned Projects**
+
+        {project_cards_md}
+
         </td>
         </tr>
         </table>
-
-        ## Pinned Projects
-
-        <table>
-        {project_grid_md}
-        </table>
-
+        
         ## Connect
 
         <div align="center">
