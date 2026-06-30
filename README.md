@@ -148,12 +148,17 @@ width="100%">
 
 ## GitHub Stats
 
-
 <div align="center">
 
-<img src="./github-stats.svg"
-width="100%"
-alt="GitHub Stats">
+<a href="https://github.com/anuraghazra/github-readme-stats">
+
+<img
+align="center"
+alt="Thefool's GitHub Stats"
+src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&hide_border=true&card_width=500"
+/>
+
+</a>
 
 </div>
 
