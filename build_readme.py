@@ -87,6 +87,23 @@ def stats_url() -> str:
     return f"{STATS_BASE_URL}/api?{query}"
 
 
+def typing_url() -> str:
+    query = params(
+        {
+            "font": "Fira Code",
+            "size": "32",
+            "duration": "2800",
+            "pause": "2000",
+            "color": "A033FF",
+            "center": "true",
+            "vCenter": "true",
+            "width": "940",
+            "lines": "Hi! I'm Thefool 👋;Bridging Gap: AI & Bare Metal;Building Neural Networks;Crafting OS Kernels",
+        }
+    )
+    return f"https://readme-typing-svg.demolab.com?{query}"
+
+
 def pin_url(project: dict[str, str]) -> str:
     query = params(
         {
@@ -247,9 +264,9 @@ def render_readme() -> str:
 
         <div align="center">
 
-        # Hi, I'm Thefool
+        <img src="./assets/typing.svg" alt="Typing SVG">
 
-        **Bridging AI systems and bare metal.**
+        <br>
 
         [![GitHub followers](https://img.shields.io/github/followers/{USERNAME}?style=for-the-badge&logo=github&logoColor=white&color=8B5CF6)](https://github.com/{USERNAME})
         [![GitHub stars](https://img.shields.io/github/stars/{USERNAME}?style=for-the-badge&logo=githubsponsors&logoColor=white&color=EA580C)](https://github.com/{USERNAME})
@@ -347,6 +364,14 @@ def render_readme() -> str:
 
 
 def refresh_generated_assets() -> None:
+    fetch_svg(
+        typing_url(),
+        ASSETS / "typing.svg",
+        "Hi! I'm Thefool",
+        "Bridging Gap: AI & Bare Metal",
+        height=80,
+    )
+
     fetch_svg(
         stats_url(),
         ROOT / "github-stats.svg",
