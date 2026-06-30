@@ -151,10 +151,9 @@ width="100%">
 
 <div align="center">
 
-
-<img src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true"
-width="100%">
-
+<img src="./github-stats.svg"
+width="100%"
+alt="GitHub Stats">
 
 </div>
 
