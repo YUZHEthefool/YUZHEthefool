@@ -297,6 +297,6 @@ src="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-c
 </picture>
 
 </a>
-<img src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api?username=YUZHEthefool">
+<img src="https://github-readme-stats.vercel.app/api?username=YUZHEthefool">
 
 </div>
