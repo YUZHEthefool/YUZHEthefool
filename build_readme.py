@@ -519,6 +519,65 @@ def write_language_stats() -> None:
         print(f"using fallback for {target.relative_to(ROOT)}: {exc}", file=sys.stderr)
 
 
+def focus_card_svg() -> str:
+    rows = [
+        ("Fool", "AI-native Rust shell", "#f7812b"),
+        ("Zero-OS", "Security-first Rust kernel", "#58a6ff"),
+        ("Zero-Compiler", "Bytecode VM and language tooling", "#8b6fe8"),
+    ]
+    tags = [
+        ("AI Systems", "#58a6ff"),
+        ("Bare Metal", "#f7812b"),
+        ("Rust", "#73c255"),
+        ("Tooling", "#8b6fe8"),
+    ]
+
+    parts = [
+        '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="260" viewBox="0 0 500 260" role="img" aria-label="Current Focus">',
+        "<!-- generated-by: build_readme.py focus_card_svg v1 -->",
+        "<defs>",
+        '<linearGradient id="focusPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101923"/><stop offset="1" stop-color="#060a10"/></linearGradient>',
+        '<filter id="focusShadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.32"/></filter>',
+        "</defs>",
+        '<rect x="1" y="1" width="498" height="258" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>',
+        '<text x="24" y="38" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="23" font-weight="800">Current Focus</text>',
+        '<text x="24" y="64" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Building practical systems where AI meets low-level software.</text>',
+    ]
+
+    y = 92
+    for title, subtitle, color in rows:
+        parts.extend(
+            [
+                f'<rect x="24" y="{y - 18}" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>',
+                f'<circle cx="44" cy="{y + 3}" r="6" fill="{color}"/>',
+                f'<text x="62" y="{y}" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">{title}</text>',
+                f'<text x="62" y="{y + 17}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">{subtitle}</text>',
+            ]
+        )
+        y += 50
+
+    tag_x = 24
+    for label, color in tags:
+        width = 72 + max(0, len(label) - 6) * 4
+        parts.extend(
+            [
+                f'<rect x="{tag_x}" y="222" width="{width}" height="24" rx="12" fill="#101b29" stroke="{color}" stroke-opacity="0.55"/>',
+                f'<text x="{tag_x + width / 2:.1f}" y="238" text-anchor="middle" fill="{color}" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">{label}</text>',
+            ]
+        )
+        tag_x += width + 10
+
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
+def write_focus_card() -> None:
+    target = ASSETS / "focus-card.svg"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(focus_card_svg() + "\n", encoding="utf-8")
+    print(f"updated {target.relative_to(ROOT)}")
+
+
 def badge(label: str, color: str, logo: str, logo_color: str = "white") -> str:
     return (
         f'<img src="https://img.shields.io/badge/{quote(label)}-{color}'
@@ -624,6 +683,10 @@ def render_readme() -> str:
 
         <img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif" width="100%" alt="Coding">
 
+        <br>
+
+        <img src="./assets/focus-card.svg" width="100%" alt="Current Focus">
+
         </td>
         </tr>
         </table>
@@ -685,6 +748,8 @@ def render_readme() -> str:
 
 
 def refresh_generated_assets() -> None:
+    write_focus_card()
+
     fetch_svg(
         typing_url(),
         ASSETS / "typing.svg",
