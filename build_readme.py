@@ -30,6 +30,7 @@ GITHUB_TOKEN = (
     or os.environ.get("GH_TOKEN")
     or os.environ.get("TOKEN")
 )
+README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
 LANGUAGE_WINDOW_DAYS = 365
 
@@ -524,6 +525,7 @@ def focus_card_svg() -> str:
         ("Fool", "AI-native Rust shell", "#f7812b"),
         ("Zero-OS", "Security-first Rust kernel", "#58a6ff"),
         ("Zero-Compiler", "Bytecode VM and language tooling", "#8b6fe8"),
+        ("zpdf", "PDF tooling from the Xero-Team ecosystem", "#73c255"),
     ]
     tags = [
         ("AI Systems", "#58a6ff"),
@@ -533,13 +535,13 @@ def focus_card_svg() -> str:
     ]
 
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="260" viewBox="0 0 500 260" role="img" aria-label="Current Focus">',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="310" viewBox="0 0 500 310" role="img" aria-label="Current Focus">',
         "<!-- generated-by: build_readme.py focus_card_svg v1 -->",
         "<defs>",
         '<linearGradient id="focusPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101923"/><stop offset="1" stop-color="#060a10"/></linearGradient>',
         '<filter id="focusShadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.32"/></filter>',
         "</defs>",
-        '<rect x="1" y="1" width="498" height="258" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>',
+        '<rect x="1" y="1" width="498" height="308" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>',
         '<text x="24" y="38" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="23" font-weight="800">Current Focus</text>',
         '<text x="24" y="64" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Building practical systems where AI meets low-level software.</text>',
     ]
@@ -554,15 +556,15 @@ def focus_card_svg() -> str:
                 f'<text x="62" y="{y + 17}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">{subtitle}</text>',
             ]
         )
-        y += 50
+        y += 47
 
     tag_x = 24
     for label, color in tags:
         width = 72 + max(0, len(label) - 6) * 4
         parts.extend(
             [
-                f'<rect x="{tag_x}" y="222" width="{width}" height="24" rx="12" fill="#101b29" stroke="{color}" stroke-opacity="0.55"/>',
-                f'<text x="{tag_x + width / 2:.1f}" y="238" text-anchor="middle" fill="{color}" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">{label}</text>',
+                f'<rect x="{tag_x}" y="272" width="{width}" height="24" rx="12" fill="#101b29" stroke="{color}" stroke-opacity="0.55"/>',
+                f'<text x="{tag_x + width / 2:.1f}" y="288" text-anchor="middle" fill="{color}" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">{label}</text>',
             ]
         )
         tag_x += width + 10
@@ -612,7 +614,7 @@ def project_cards() -> str:
 
 def project_list() -> str:
     items = []
-    for project in PROJECTS[:3]:
+    for project in PROJECTS:
         url = f'https://github.com/{project["owner"]}/{project["repo"]}'
         items.append(
             f'- **[{project["title"]}]({url})** - {project["description"]}'
@@ -749,6 +751,10 @@ def render_readme() -> str:
 
 def refresh_generated_assets() -> None:
     write_focus_card()
+
+    if README_OFFLINE:
+        print("skipping remote asset refresh because README_OFFLINE=1")
+        return
 
     fetch_svg(
         typing_url(),

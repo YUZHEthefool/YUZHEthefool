@@ -1,30 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="260" viewBox="0 0 500 260" role="img" aria-label="Current Focus">
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="310" viewBox="0 0 500 310" role="img" aria-label="Current Focus">
 <!-- generated-by: build_readme.py focus_card_svg v1 -->
 <defs>
 <linearGradient id="focusPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101923"/><stop offset="1" stop-color="#060a10"/></linearGradient>
 <filter id="focusShadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.32"/></filter>
 </defs>
-<rect x="1" y="1" width="498" height="258" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>
+<rect x="1" y="1" width="498" height="308" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>
 <text x="24" y="38" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="23" font-weight="800">Current Focus</text>
 <text x="24" y="64" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Building practical systems where AI meets low-level software.</text>
 <rect x="24" y="74" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
 <circle cx="44" cy="95" r="6" fill="#f7812b"/>
 <text x="62" y="92" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">Fool</text>
 <text x="62" y="109" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">AI-native Rust shell</text>
-<rect x="24" y="124" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
-<circle cx="44" cy="145" r="6" fill="#58a6ff"/>
-<text x="62" y="142" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">Zero-OS</text>
-<text x="62" y="159" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">Security-first Rust kernel</text>
-<rect x="24" y="174" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
-<circle cx="44" cy="195" r="6" fill="#8b6fe8"/>
-<text x="62" y="192" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">Zero-Compiler</text>
-<text x="62" y="209" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">Bytecode VM and language tooling</text>
-<rect x="24" y="222" width="88" height="24" rx="12" fill="#101b29" stroke="#58a6ff" stroke-opacity="0.55"/>
-<text x="68.0" y="238" text-anchor="middle" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">AI Systems</text>
-<rect x="122" y="222" width="88" height="24" rx="12" fill="#101b29" stroke="#f7812b" stroke-opacity="0.55"/>
-<text x="166.0" y="238" text-anchor="middle" fill="#f7812b" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Bare Metal</text>
-<rect x="220" y="222" width="72" height="24" rx="12" fill="#101b29" stroke="#73c255" stroke-opacity="0.55"/>
-<text x="256.0" y="238" text-anchor="middle" fill="#73c255" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Rust</text>
-<rect x="302" y="222" width="76" height="24" rx="12" fill="#101b29" stroke="#8b6fe8" stroke-opacity="0.55"/>
-<text x="340.0" y="238" text-anchor="middle" fill="#8b6fe8" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Tooling</text>
+<rect x="24" y="121" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
+<circle cx="44" cy="142" r="6" fill="#58a6ff"/>
+<text x="62" y="139" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">Zero-OS</text>
+<text x="62" y="156" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">Security-first Rust kernel</text>
+<rect x="24" y="168" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
+<circle cx="44" cy="189" r="6" fill="#8b6fe8"/>
+<text x="62" y="186" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">Zero-Compiler</text>
+<text x="62" y="203" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">Bytecode VM and language tooling</text>
+<rect x="24" y="215" width="452" height="42" rx="10" fill="#071018" stroke="#1b2733" filter="url(#focusShadow)"/>
+<circle cx="44" cy="236" r="6" fill="#73c255"/>
+<text x="62" y="233" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="800">zpdf</text>
+<text x="62" y="250" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5">PDF tooling from the Xero-Team ecosystem</text>
+<rect x="24" y="272" width="88" height="24" rx="12" fill="#101b29" stroke="#58a6ff" stroke-opacity="0.55"/>
+<text x="68.0" y="288" text-anchor="middle" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">AI Systems</text>
+<rect x="122" y="272" width="88" height="24" rx="12" fill="#101b29" stroke="#f7812b" stroke-opacity="0.55"/>
+<text x="166.0" y="288" text-anchor="middle" fill="#f7812b" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Bare Metal</text>
+<rect x="220" y="272" width="72" height="24" rx="12" fill="#101b29" stroke="#73c255" stroke-opacity="0.55"/>
+<text x="256.0" y="288" text-anchor="middle" fill="#73c255" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Rust</text>
+<rect x="302" y="272" width="76" height="24" rx="12" fill="#101b29" stroke="#8b6fe8" stroke-opacity="0.55"/>
+<text x="340.0" y="288" text-anchor="middle" fill="#8b6fe8" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Tooling</text>
 </svg>
