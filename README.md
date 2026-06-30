@@ -89,20 +89,20 @@ alt="Coding">
 # Tech Stack
 
 
-<div align="center">
+<div align="center" style="white-space: nowrap;">
 
 
-![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)
+<img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" height="35">
 
-![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
+<img src="https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white" height="35">
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" height="35">
 
-![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" height="35">
 
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" height="35">
 
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" height="35">
 
 
 </div>
@@ -244,31 +244,23 @@ width="100%">
 
 <div align="center">
 
-
+<p>
 I'm always open to discussing OS development, AI tooling, systems programming, or exciting collaboration opportunities.
-
-
-<br>
+</p>
 
 
 <a href="https://github.com/YUZHEthefool">
-
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
-
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
 </a>
 
 
 <a href="mailto:thefoolyuzhe@gmail.com">
-
-<img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white">
-
+  <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
 </a>
 
 
 <a href="https://blog.thefool.chat/">
-
-<img src="https://img.shields.io/badge/Blog-thefool.chat-6366F1?style=for-the-badge&logo=ghost&logoColor=white">
-
+  <img src="https://img.shields.io/badge/Blog-thefool.chat-6366F1?style=for-the-badge&logo=ghost&logoColor=white" alt="Blog"/>
 </a>
 
 
