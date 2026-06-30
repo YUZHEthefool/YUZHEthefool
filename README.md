@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=A033FF&center=true&vCenter=true&width=940&lines=Hi!+I'm+Thefool+%F0%9F%91%8B;Bridging+Gap:+AI+%26+Bare+Metal;Building+Neural+Networks;Crafting+OS+Kernels" 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=A033FF&center=true&vCenter=true&width=940&lines=Hi!+I'm+Thefool+%F0%9F%91%8B;Bridging+Gap:+AI+%26+Bare+Metal;Building+Neural+Networks;Crafting+OS+Kernels"
 alt="Typing SVG" />
 
 <br>
@@ -24,12 +24,14 @@ alt="Typing SVG" />
 <td width="50%" valign="top">
 
 
-## Who Am I?
+<h2>Who Am I?</h2>
+
 
 I'm a developer operating at both ends of the abstraction spectrum — **AI** and **bare metal**.
 
 
-### What I Do
+<h3>What I Do</h3>
+
 
 - 🧠 **By Day:** Build and train large-scale neural networks & AI-powered tools.
 
@@ -38,19 +40,25 @@ I'm a developer operating at both ends of the abstraction spectrum — **AI** an
 - ⚙️ **Focus:** Creating intelligent systems that run close to the hardware.
 
 
-### Current Flagship Projects
+
+<h3>Current Flagship Projects</h3>
+
 
 - **[Fool](https://github.com/YUZHEthefool/Fool)**  
   Modern Rust shell with native AI assistance.
 
+
 - **[Zero-OS](https://github.com/Zero-kernel/Zero-os)**  
   Security-first monolithic kernel written in pure Rust.
+
 
 - **[Zero-Compiler](https://github.com/YUZHEthefool/Zero-Compiler)**  
   Modern bytecode language and VM.
 
 
-### Tech Interests
+
+<h3>Tech Interests</h3>
+
 
 - 🦀 Rust (Systems & Safety)
 
@@ -59,7 +67,9 @@ I'm a developer operating at both ends of the abstraction spectrum — **AI** an
 - 🐧 Linux · Docker · Low-level
 
 
-### My Belief
+
+<h3>My Belief</h3>
+
 
 > "Nothing is True, Everything is Permitted."
 
@@ -82,14 +92,13 @@ alt="Coding">
 </table>
 
 
-
 <br>
 
 
 # Tech Stack
 
 
-<div align="center" style="white-space: nowrap;">
+<div align="center">
 
 
 <img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" height="35">
@@ -111,7 +120,6 @@ alt="Coding">
 <br>
 
 
-
 # GitHub Overview
 
 
@@ -119,12 +127,10 @@ alt="Coding">
 <tr>
 
 
-<!-- 左侧 Metrics -->
-
 <td width="60%" valign="top">
 
 
-## GitHub Metrics
+<h2>GitHub Metrics</h2>
 
 
 <div align="center">
@@ -140,25 +146,20 @@ width="100%">
 
 
 
-<!-- 右侧内容 -->
-
 <td width="40%" valign="top">
 
 
+<h2>GitHub Stats</h2>
 
-## GitHub Stats
 
 <div align="center">
 
-<a href="https://github.com/anuraghazra/github-readme-stats">
 
 <img
-align="center"
 alt="Thefool's GitHub Stats"
-src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api?username=YUZHEthefool&show_icons=true&theme=tokyonight&hide_border=true&card_width=500"
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api?username=YUZHEthefool&show_icons=true&include_all_commits=true&theme=tokyonight&hide_border=true&card_width=400"
 />
 
-</a>
 
 </div>
 
@@ -167,7 +168,7 @@ src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.ap
 <br>
 
 
-## 3D Contribution
+<h2>3D Contribution</h2>
 
 
 <div align="center">
@@ -185,8 +186,7 @@ alt="GitHub Profile 3D Contribution">
 <br>
 
 
-## Pinned Projects
-
+<h2>Pinned Projects</h2>
 
 
 <div align="center">
@@ -194,38 +194,38 @@ alt="GitHub Profile 3D Contribution">
 
 <a href="https://github.com/YUZHEthefool/Fool">
 
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Fool&theme=tokyonight&hide_border=true"
+<img
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api/pin/?username=YUZHEthefool&repo=Fool&theme=tokyonight&hide_border=true"
 width="100%">
 
 </a>
-
 
 
 <a href="https://github.com/Zero-kernel/Zero-os">
 
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=Zero-kernel&repo=Zero-os&theme=tokyonight&hide_border=true"
+<img
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api/pin/?username=Zero-kernel&repo=Zero-os&theme=tokyonight&hide_border=true"
 width="100%">
 
 </a>
-
 
 
 <a href="https://github.com/YUZHEthefool/Zero-Compiler">
 
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-Compiler&theme=tokyonight&hide_border=true"
+<img
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api/pin/?username=YUZHEthefool&repo=Zero-Compiler&theme=tokyonight&hide_border=true"
 width="100%">
 
 </a>
-
 
 
 <a href="https://github.com/Xero-Team/zpdf">
 
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=Xero-Team&repo=zpdf&theme=tokyonight&hide_border=true"
+<img
+src="https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app/api/pin/?username=Xero-Team&repo=zpdf&theme=tokyonight&hide_border=true"
 width="100%">
 
 </a>
-
 
 
 </div>
@@ -242,11 +242,11 @@ width="100%">
 <br>
 
 
-
 # Let's Connect
 
 
 <div align="center">
+
 
 <p>
 I'm always open to discussing OS development, AI tooling, systems programming, or exciting collaboration opportunities.
@@ -254,22 +254,27 @@ I'm always open to discussing OS development, AI tooling, systems programming, o
 
 
 <a href="https://github.com/YUZHEthefool">
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+
 </a>
 
 
 <a href="mailto:thefoolyuzhe@gmail.com">
-  <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+
+<img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+
 </a>
 
 
 <a href="https://blog.thefool.chat/">
-  <img src="https://img.shields.io/badge/Blog-thefool.chat-6366F1?style=for-the-badge&logo=ghost&logoColor=white" alt="Blog"/>
+
+<img src="https://img.shields.io/badge/Blog-thefool.chat-6366F1?style=for-the-badge&logo=ghost&logoColor=white" alt="Blog"/>
+
 </a>
 
 
 </div>
-
 
 
 <br>
@@ -277,13 +282,20 @@ I'm always open to discussing OS development, AI tooling, systems programming, o
 
 
 <div align="center">
-  <a href="https://github.com/YUZHEthefool">
-    <picture>
-      <!-- Dark mode version -->
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake-dark.svg" />
-      <!-- Light mode version -->
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
-      <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
-    </picture>
-  </a>
+
+<a href="https://github.com/YUZHEthefool">
+
+<picture>
+
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake-dark.svg" />
+
+<source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
+
+<img alt="github contribution grid snake animation"
+src="https://raw.githubusercontent.com/YUZHEthefool/YUZHEthefool/output/github-contribution-grid-snake.svg" />
+
+</picture>
+
+</a>
+
 </div>
