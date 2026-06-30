@@ -1,0 +1,35 @@
+name: Build README
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: ["main", "master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate README and cached cards
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: python build_readme.py
+
+      - name: Commit generated changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add README.md github-stats.svg assets
+          git diff --cached --quiet && exit 0
+          git commit -m "Update generated README"
+          git push
