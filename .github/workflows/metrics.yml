@@ -41,7 +41,7 @@ jobs:
           # === 📌 Pinned Repositories (新增) ===
           # 替代原来的 "Recently starred"，这里显示你自己的置顶项目
           plugin_repositories: yes
-          plugin_repositories_pinned: 3   # 显示 4 个置顶项目
+          plugin_repositories_pinned: 4   # 显示 4 个置顶项目
           # plugin_repositories_order: featured, pinned, starred, random
           
           # === 🌟 Stargazers (保留) ===
