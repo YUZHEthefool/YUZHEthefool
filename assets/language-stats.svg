@@ -9,21 +9,21 @@
 <text x="205" y="38" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="16" font-weight="700">(by Commits)</text>
 <rect x="356" y="18" width="120" height="28" rx="14" fill="#132235"/>
 <text x="373" y="37" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12" font-weight="700">GraphQL API</text>
-<text x="24" y="66" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Based on 415 commits across 4 flagship repositories - Last 12 months</text>
+<text x="24" y="66" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Based on 421 commits across 4 flagship repositories - Last 12 months</text>
 <rect x="24" y="84" width="452" height="230" rx="12" fill="#071018" stroke="#1b2733"/>
 <rect x="24" y="330" width="452" height="58" rx="12" fill="#071018" stroke="#1b2733"/>
-<path d="M 118.00 104.00 A 76 76 0 1 1 113.40 104.14 L 114.97 130.09 A 50 50 0 1 0 118.00 130.00 Z" fill="#dea584" filter="url(#shadow)"/>
-<path d="M 113.40 104.14 A 76 76 0 0 1 115.70 104.03 L 116.49 130.02 A 50 50 0 0 0 114.97 130.09 Z" fill="#89e051" filter="url(#shadow)"/>
-<path d="M 115.70 104.03 A 76 76 0 0 1 116.85 104.01 L 117.24 130.01 A 50 50 0 0 0 116.49 130.02 Z" fill="#427819" filter="url(#shadow)"/>
-<path d="M 116.85 104.01 A 76 76 0 0 1 118.00 104.00 L 118.00 130.00 A 50 50 0 0 0 117.24 130.01 Z" fill="#3572A5" filter="url(#shadow)"/>
+<path d="M 118.00 104.00 A 76 76 0 1 1 113.47 104.14 L 115.02 130.09 A 50 50 0 1 0 118.00 130.00 Z" fill="#dea584" filter="url(#shadow)"/>
+<path d="M 113.47 104.14 A 76 76 0 0 1 115.73 104.03 L 116.51 130.02 A 50 50 0 0 0 115.02 130.09 Z" fill="#89e051" filter="url(#shadow)"/>
+<path d="M 115.73 104.03 A 76 76 0 0 1 116.87 104.01 L 117.25 130.01 A 50 50 0 0 0 116.51 130.02 Z" fill="#427819" filter="url(#shadow)"/>
+<path d="M 116.87 104.01 A 76 76 0 0 1 118.00 104.00 L 118.00 130.00 A 50 50 0 0 0 117.25 130.01 Z" fill="#3572A5" filter="url(#shadow)"/>
 <path d="M 118.00 104.00 A 76 76 0 0 1 118.00 104.00 L 118.00 130.00 A 50 50 0 0 0 118.00 130.00 Z" fill="#8b6fe8" filter="url(#shadow)"/>
 <text x="118" y="176" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="15" font-weight="700">Rust</text>
 <text x="118" y="208" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="25" font-weight="800">99.0%</text>
 <circle cx="232" cy="112" r="6" fill="#dea584"/>
 <text x="246" y="117" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">Rust</text>
-<text x="355" y="117" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">411</text>
+<text x="355" y="117" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">417</text>
 <rect x="368" y="107" width="62" height="9" rx="4.5" fill="#202933"/>
-<rect x="368" y="107" width="61.40" height="9" rx="4.5" fill="#dea584"/>
+<rect x="368" y="107" width="61.41" height="9" rx="4.5" fill="#dea584"/>
 <text x="472" y="117" text-anchor="end" fill="#dea584" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5" font-weight="700">99.0%</text>
 <circle cx="232" cy="146" r="6" fill="#89e051"/>
 <text x="246" y="151" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">Shell</text>
@@ -49,13 +49,13 @@
 <rect x="368" y="243" width="62" height="9" rx="4.5" fill="#202933"/>
 <rect x="368" y="243" width="1.50" height="9" rx="4.5" fill="#8b6fe8"/>
 <text x="472" y="253" text-anchor="end" fill="#8b6fe8" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5" font-weight="700">0.0%</text>
-<text x="62" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">415</text>
+<text x="62" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">421</text>
 <text x="62" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Commits</text>
 <text x="184" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">4</text>
 <text x="184" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Repositories</text>
 <text x="306" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">365</text>
 <text x="306" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Days</text>
-<text x="426" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">2026-07-06</text>
+<text x="426" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">2026-07-07</text>
 <text x="426" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated</text>
 <text x="24" y="406" fill="#8f9bad" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Data source: GitHub GraphQL API - flagship commit history weighted by repo languages</text>
 </svg>
