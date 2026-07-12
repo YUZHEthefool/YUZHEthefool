@@ -7,6 +7,10 @@ on:
   push:
     branches: ["main", "master"]
 
+concurrency:
+  group: build-readme-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,6 +19,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -26,11 +32,37 @@ jobs:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: python build_readme.py
 
-      - name: Commit generated changes
+      - name: Commit and push generated changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md github-stats.svg assets
-          git diff --cached --quiet && exit 0
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+            exit 0
+          fi
+
           git commit -m "Update generated README"
-          git push
+
+          # Another workflow (for example Metrics) may update main while this
+          # job is generating the cards. Rebase and retry instead of failing
+          # the run with a non-fast-forward push.
+          for attempt in 1 2 3; do
+            if ! git fetch origin "$GITHUB_REF_NAME"; then
+              echo "Fetch failed on attempt ${attempt}; retrying..."
+            elif ! git rebase FETCH_HEAD; then
+              git rebase --abort
+              echo "::error::Could not rebase generated changes onto origin/${GITHUB_REF_NAME}."
+              exit 1
+            elif git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            else
+              echo "Push raced with another update on attempt ${attempt}; retrying..."
+            fi
+
+            sleep $((attempt * 2))
+          done
+
+          echo "::error::Could not push generated changes after 3 attempts."
+          exit 1
