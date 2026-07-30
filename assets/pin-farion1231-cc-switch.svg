@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="120" viewBox="0 0 500 120" role="img" aria-label="CC Switch">
+          <rect width="500" height="120" rx="12" fill="#1a1b27"/>
+          <rect x="1" y="1" width="498" height="118" rx="11" fill="none" stroke="#2f334d"/>
+          <text x="28" y="34" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="24" font-weight="700">CC Switch</text>
+          <text x="28" y="58" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="13"><tspan x="28" dy="0">Cross-platform AI coding assistant manager; contributed pricing</tspan>
+<tspan x="28" dy="16">sync and Grok Build support.</tspan></text>
+          <text x="28" y="108" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Generated fallback - waiting for stats API</text>
+        </svg>

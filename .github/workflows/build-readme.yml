@@ -2,10 +2,13 @@ name: Build README
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 */12 * * *"
   workflow_dispatch:
   push:
     branches: ["main", "master"]
+    paths:
+      - "build_readme.py"
+      - ".github/workflows/build-readme.yml"
 
 concurrency:
   group: build-readme-${{ github.ref }}

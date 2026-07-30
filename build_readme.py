@@ -32,6 +32,7 @@ GITHUB_TOKEN = (
 )
 README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
+STATS_CACHE_SECONDS = 21600
 LANGUAGE_WINDOW_DAYS = 365
 
 PROJECTS = [
@@ -48,10 +49,10 @@ PROJECTS = [
         "description": "A security-first monolithic kernel written in pure Rust.",
     },
     {
-        "owner": "YUZHEthefool",
-        "repo": "Zero-Compiler",
-        "title": "Zero-Compiler",
-        "description": "A modern bytecode language and virtual machine.",
+        "owner": "farion1231",
+        "repo": "cc-switch",
+        "title": "CC Switch",
+        "description": "Cross-platform AI coding assistant manager; contributed pricing sync and Grok Build support.",
     },
     {
         "owner": "Xero-Team",
@@ -106,6 +107,7 @@ def stats_url() -> str:
             "theme": THEME,
             "hide_border": "true",
             "card_width": "500",
+            "cache_seconds": str(STATS_CACHE_SECONDS),
         }
     )
     return f"{STATS_BASE_URL}/api?{query}"
@@ -135,6 +137,7 @@ def pin_url(project: dict[str, str]) -> str:
             "repo": project["repo"],
             "theme": THEME,
             "hide_border": "true",
+            "cache_seconds": str(STATS_CACHE_SECONDS),
         }
     )
     return f"{STATS_BASE_URL}/api/pin/?{query}"
@@ -143,6 +146,33 @@ def pin_url(project: dict[str, str]) -> str:
 def project_slug(project: dict[str, str]) -> str:
     raw = f'{project["owner"]}-{project["repo"]}'.lower()
     return re.sub(r"[^a-z0-9]+", "-", raw).strip("-")
+
+
+def sync_project_pin_assets() -> None:
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    expected = {
+        ASSETS / f"pin-{project_slug(project)}.svg": project
+        for project in PROJECTS
+    }
+
+    for target in ASSETS.glob("pin-*.svg"):
+        if target not in expected:
+            target.unlink()
+            print(f"removed stale {target.relative_to(ROOT)}")
+
+    for target, project in expected.items():
+        existing = read_existing_svg(target)
+        if existing is None or "Generated fallback - waiting for stats API" in existing:
+            target.write_text(
+                fallback_svg(
+                    project["title"],
+                    project["description"],
+                    height=120,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            print(f"created fallback {target.relative_to(ROOT)}")
 
 
 def sanitize_svg(data: str) -> str:
@@ -171,19 +201,31 @@ def read_existing_svg(path: Path) -> str | None:
 
 def fallback_svg(title: str, subtitle: str, *, height: int = 180) -> str:
     safe_title = html.escape(title, quote=True)
-    safe_subtitle = html.escape(subtitle, quote=True)
     width = 500
-    title_y = 42 if height <= 130 else 54
-    subtitle_y = 70 if height <= 130 else 92
-    footer_y = height - 20 if height <= 130 else height - 34
-    subtitle_size = 14 if height <= 130 else 16
+    compact = height <= 130
+    title_y = 34 if compact else 54
+    subtitle_y = 58 if compact else 92
+    footer_y = height - 12 if compact else height - 34
+    subtitle_size = 13 if compact else 16
+    line_height = 16 if compact else 20
+    subtitle_lines = textwrap.wrap(
+        subtitle,
+        width=64 if compact else 52,
+        max_lines=2,
+        placeholder="...",
+    ) or [""]
+    subtitle_spans = "\n".join(
+        f'<tspan x="28" dy="{0 if index == 0 else line_height}">'
+        f"{html.escape(line, quote=True)}</tspan>"
+        for index, line in enumerate(subtitle_lines)
+    )
     return textwrap.dedent(
         f"""\
         <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="{safe_title}">
           <rect width="{width}" height="{height}" rx="12" fill="#1a1b27"/>
           <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="11" fill="none" stroke="#2f334d"/>
           <text x="28" y="{title_y}" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="24" font-weight="700">{safe_title}</text>
-          <text x="28" y="{subtitle_y}" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="{subtitle_size}">{safe_subtitle}</text>
+          <text x="28" y="{subtitle_y}" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="{subtitle_size}">{subtitle_spans}</text>
           <text x="28" y="{footer_y}" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Generated fallback - waiting for stats API</text>
         </svg>
         """
@@ -524,7 +566,7 @@ def focus_card_svg() -> str:
     rows = [
         ("Fool", "AI-native Rust shell", "#f7812b"),
         ("Zero-OS", "Security-first Rust kernel", "#58a6ff"),
-        ("Zero-Compiler", "Bytecode VM and language tooling", "#8b6fe8"),
+        ("CC Switch", "AI coding assistant manager and contributor work", "#8b6fe8"),
         ("zpdf", "PDF tooling from the Xero-Team ecosystem", "#73c255"),
     ]
     tags = [
@@ -751,6 +793,7 @@ def render_readme() -> str:
 
 def refresh_generated_assets() -> None:
     write_focus_card()
+    sync_project_pin_assets()
 
     if README_OFFLINE:
         print("skipping remote asset refresh because README_OFFLINE=1")
