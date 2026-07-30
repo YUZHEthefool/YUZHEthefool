@@ -19,7 +19,7 @@ ASSETS = ROOT / "assets"
 
 USERNAME = "YUZHEthefool"
 STATS_BASE_URL = (
-    "https://github-readme-stats-r4ol293mc-thefoolyuzhe-5613s-projects.vercel.app"
+    "https://github-readme-stats-o6e3b1z1k-thefoolyuzhe-5613s-projects.vercel.app"
 )
 VERCEL_BYPASS_SECRET = (
     os.environ.get("VERCEL_AUTOMATION_BYPASS_SECRET")
