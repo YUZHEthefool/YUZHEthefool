@@ -6,9 +6,12 @@ on:
   workflow_dispatch:
   push:
     branches: ["main", "master"]
-    paths:
-      - "build_readme.py"
-      - ".github/workflows/build-readme.yml"
+    paths-ignore:
+      - "README.md"
+      - "github-stats.svg"
+      - "github-metrics.svg"
+      - "assets/**"
+      - "profile-3d-contrib/**"
 
 concurrency:
   group: build-readme-${{ github.ref }}
