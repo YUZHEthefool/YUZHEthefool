@@ -33,6 +33,7 @@ GITHUB_TOKEN = (
 README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
 OVERVIEW_CARD_WIDTH = 500
+REPOSITORY_CARD_HEIGHT = 204
 STATS_CACHE_SECONDS = 21600
 LANGUAGE_WINDOW_DAYS = 365
 
@@ -253,7 +254,7 @@ def repository_card_svg(
     project: dict[str, str], repository: dict[str, object] | None
 ) -> str:
     width = OVERVIEW_CARD_WIDTH
-    height = 132
+    height = REPOSITORY_CARD_HEIGHT
     title = html.escape(project["title"], quote=True)
     full_name = html.escape(
         str(repository.get("full_name"))
@@ -284,20 +285,28 @@ def repository_card_svg(
     forks = compact_count(repository.get("forks_count")) if repository else "-"
     updated_value = repository.get("pushed_at") if repository else None
     updated = str(updated_value)[:10] if updated_value else "unavailable"
+    default_branch_value = repository.get("default_branch") if repository else None
+    default_branch = str(default_branch_value) if default_branch_value else "-"
+    license_data = repository.get("license") if repository else None
+    license_value = license_data.get("spdx_id") if isinstance(license_data, dict) else None
+    license_name = str(license_value) if license_value and license_value != "NOASSERTION" else "-"
 
     return textwrap.dedent(
         f"""\
         <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="{title} repository card">
-          <!-- generated-by: build_readme.py repository_card_svg v1 -->
+          <!-- generated-by: build_readme.py repository_card_svg v2 -->
           <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="7" fill="#1a1b27" stroke="#2f334d"/>
-          <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
-          <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
-          <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
-          <circle cx="28" cy="115" r="5" fill="{language_color}"/>
-          <text x="40" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
-          <text x="178" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars {stars}</text>
-          <text x="258" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
-          <text x="350" y="119" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
+          <text x="24" y="34" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
+          <text x="24" y="55" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
+          <text x="24" y="84" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
+          <line x1="24" y1="126" x2="476" y2="126" stroke="#2f334d"/>
+          <circle cx="28" cy="149" r="5" fill="{language_color}"/>
+          <text x="40" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
+          <text x="165" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">License {html.escape(license_name, quote=True)}</text>
+          <text x="280" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars {stars}</text>
+          <text x="380" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
+          <text x="24" y="181" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Branch {html.escape(default_branch, quote=True)}</text>
+          <text x="476" y="181" text-anchor="end" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
         </svg>
         """
     ).strip()
