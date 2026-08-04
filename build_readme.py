@@ -52,7 +52,8 @@ PROJECTS = [
         "owner": "farion1231",
         "repo": "cc-switch",
         "title": "CC Switch",
-        "description": "Cross-platform AI coding assistant manager; contributed pricing sync and Grok Build support.",
+        "description": "Maintainer of the cross-platform AI coding assistant manager; working on pricing sync and Grok Build support.",
+        "role": "Maintainer",
     },
     {
         "owner": "Xero-Team",
@@ -88,6 +89,10 @@ LANGUAGE_FALLBACK_COLORS = {
 
 BARE_AMPERSAND = re.compile(
     r"&(?!amp;|lt;|gt;|apos;|quot;|#[0-9]+;|#x[0-9a-fA-F]+;)"
+)
+SVG_ERROR_MARKERS = (
+    "Something went wrong! file an issue at https://tiny.one/readme-stats",
+    "Cannot read properties of undefined",
 )
 
 
@@ -130,19 +135,6 @@ def typing_url() -> str:
     return f"https://readme-typing-svg.demolab.com?{query}"
 
 
-def pin_url(project: dict[str, str]) -> str:
-    query = params(
-        {
-            "username": project["owner"],
-            "repo": project["repo"],
-            "theme": THEME,
-            "hide_border": "true",
-            "cache_seconds": str(STATS_CACHE_SECONDS),
-        }
-    )
-    return f"{STATS_BASE_URL}/api/pin/?{query}"
-
-
 def project_slug(project: dict[str, str]) -> str:
     raw = f'{project["owner"]}-{project["repo"]}'.lower()
     return re.sub(r"[^a-z0-9]+", "-", raw).strip("-")
@@ -160,21 +152,6 @@ def sync_project_pin_assets() -> None:
             target.unlink()
             print(f"removed stale {target.relative_to(ROOT)}")
 
-    for target, project in expected.items():
-        existing = read_existing_svg(target)
-        if existing is None or "Generated fallback - waiting for stats API" in existing:
-            target.write_text(
-                fallback_svg(
-                    project["title"],
-                    project["description"],
-                    height=120,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            print(f"created fallback {target.relative_to(ROOT)}")
-
-
 def sanitize_svg(data: str) -> str:
     data = data.strip().lstrip("\ufeff")
     return BARE_AMPERSAND.sub("&amp;", data)
@@ -182,6 +159,8 @@ def sanitize_svg(data: str) -> str:
 
 def is_valid_svg(data: str) -> bool:
     if not data:
+        return False
+    if any(marker.lower() in data.lower() for marker in SVG_ERROR_MARKERS):
         return False
     if "<svg" not in data[:1200].lower():
         return False
@@ -230,6 +209,139 @@ def fallback_svg(title: str, subtitle: str, *, height: int = 180) -> str:
         </svg>
         """
     ).strip()
+
+
+def github_rest_request(path: str) -> dict[str, object]:
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "YUZHEthefool-readme-builder/1.0",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+
+    request = urllib.request.Request(
+        f"https://api.github.com{path}",
+        headers=headers,
+    )
+    with urllib.request.urlopen(request, timeout=25) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+    if not isinstance(payload, dict):
+        raise RuntimeError("GitHub REST response is not an object")
+    return payload
+
+
+def fetch_repository(project: dict[str, str]) -> dict[str, object]:
+    owner = quote(project["owner"])
+    repo = quote(project["repo"])
+    return github_rest_request(f"/repos/{owner}/{repo}")
+
+
+def compact_count(value: object) -> str:
+    try:
+        count = int(value or 0)
+    except (TypeError, ValueError):
+        count = 0
+    for threshold, suffix in ((1_000_000, "m"), (1_000, "k")):
+        if count >= threshold:
+            result = f"{count / threshold:.1f}".rstrip("0").rstrip(".")
+            return f"{result}{suffix}"
+    return str(count)
+
+
+def repository_card_svg(
+    project: dict[str, str], repository: dict[str, object] | None
+) -> str:
+    width = 500
+    height = 132
+    title = html.escape(project["title"], quote=True)
+    full_name = html.escape(
+        str(repository.get("full_name"))
+        if repository and repository.get("full_name")
+        else f'{project["owner"]}/{project["repo"]}',
+        quote=True,
+    )
+    description = project["description"]
+    description_lines = textwrap.wrap(
+        description,
+        width=66,
+        max_lines=2,
+        placeholder="...",
+    ) or [""]
+    description_spans = "\n".join(
+        f'<tspan x="24" dy="{0 if index == 0 else 17}">'
+        f"{html.escape(line, quote=True)}</tspan>"
+        for index, line in enumerate(description_lines)
+    )
+
+    language_value = repository.get("language") if repository else None
+    language = str(language_value) if language_value else "Repository"
+    language_color = LANGUAGE_FALLBACK_COLORS.get(
+        normalize_language(language),
+        LANGUAGE_FALLBACK_COLORS["Other"],
+    )
+    stars = compact_count(repository.get("stargazers_count")) if repository else "-"
+    forks = compact_count(repository.get("forks_count")) if repository else "-"
+    updated_value = repository.get("pushed_at") if repository else None
+    updated = str(updated_value)[:10] if updated_value else "unavailable"
+
+    role = project.get("role", "")
+    role_markup = ""
+    if role:
+        safe_role = html.escape(role, quote=True)
+        role_width = max(78, 24 + len(role) * 7)
+        role_x = width - 24 - role_width
+        role_markup = (
+            f'<rect x="{role_x}" y="16" width="{role_width}" height="24" rx="6" '
+            'fill="#251b3d" stroke="#8b6fe8" stroke-opacity="0.7"/>'
+            f'<text x="{role_x + role_width / 2:.1f}" y="32" text-anchor="middle" '
+            'fill="#c8a8ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" '
+            f'font-size="11" font-weight="700">{safe_role}</text>'
+        )
+
+    return textwrap.dedent(
+        f"""\
+        <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="{title} repository card">
+          <!-- generated-by: build_readme.py repository_card_svg v1 -->
+          <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="7" fill="#1a1b27" stroke="#2f334d"/>
+          <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
+          <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
+          {role_markup}
+          <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
+          <circle cx="28" cy="115" r="5" fill="{language_color}"/>
+          <text x="40" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
+          <text x="178" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars {stars}</text>
+          <text x="258" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
+          <text x="350" y="119" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
+        </svg>
+        """
+    ).strip()
+
+
+def write_project_pin_cards() -> None:
+    for project in PROJECTS:
+        target = ASSETS / f"pin-{project_slug(project)}.svg"
+        repository = None
+        if not README_OFFLINE:
+            try:
+                repository = fetch_repository(project)
+            except Exception as exc:  # noqa: BLE001 - preserve the last usable card
+                print(
+                    f"could not refresh {project['owner']}/{project['repo']}: {exc}",
+                    file=sys.stderr,
+                )
+
+        existing = read_existing_svg(target)
+        if repository is None and existing is not None:
+            print(f"kept {target.relative_to(ROOT)}")
+            continue
+
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(
+            repository_card_svg(project, repository) + "\n",
+            encoding="utf-8",
+        )
+        print(f"updated {target.relative_to(ROOT)}")
 
 
 def fetch_svg(url: str, target: Path, title: str, subtitle: str, *, height: int) -> None:
@@ -566,7 +678,7 @@ def focus_card_svg() -> str:
     rows = [
         ("Fool", "AI-native Rust shell", "#f7812b"),
         ("Zero-OS", "Security-first Rust kernel", "#58a6ff"),
-        ("CC Switch", "AI coding assistant manager and contributor work", "#8b6fe8"),
+        ("CC Switch", "Maintaining a cross-platform AI assistant manager", "#8b6fe8"),
         ("zpdf", "PDF tooling from the Xero-Team ecosystem", "#73c255"),
     ]
     tags = [
@@ -794,6 +906,7 @@ def render_readme() -> str:
 def refresh_generated_assets() -> None:
     write_focus_card()
     sync_project_pin_assets()
+    write_project_pin_cards()
 
     if README_OFFLINE:
         print("skipping remote asset refresh because README_OFFLINE=1")
@@ -814,16 +927,6 @@ def refresh_generated_assets() -> None:
         USERNAME,
         height=195,
     )
-
-    for project in PROJECTS:
-        slug = project_slug(project)
-        fetch_svg(
-            pin_url(project),
-            ASSETS / f"pin-{slug}.svg",
-            project["title"],
-            project["description"],
-            height=120,
-        )
 
     write_language_stats()
 
