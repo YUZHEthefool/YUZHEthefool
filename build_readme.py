@@ -32,6 +32,7 @@ GITHUB_TOKEN = (
 )
 README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
+OVERVIEW_CARD_WIDTH = 500
 STATS_CACHE_SECONDS = 21600
 LANGUAGE_WINDOW_DAYS = 365
 
@@ -53,7 +54,6 @@ PROJECTS = [
         "repo": "cc-switch",
         "title": "CC Switch",
         "description": "Maintainer of the cross-platform AI coding assistant manager; working on pricing sync and Grok Build support.",
-        "role": "Maintainer",
     },
     {
         "owner": "Xero-Team",
@@ -111,7 +111,7 @@ def stats_url() -> str:
             "show_icons": "true",
             "theme": THEME,
             "hide_border": "true",
-            "card_width": "500",
+            "card_width": str(OVERVIEW_CARD_WIDTH),
             "cache_seconds": str(STATS_CACHE_SECONDS),
         }
     )
@@ -180,7 +180,7 @@ def read_existing_svg(path: Path) -> str | None:
 
 def fallback_svg(title: str, subtitle: str, *, height: int = 180) -> str:
     safe_title = html.escape(title, quote=True)
-    width = 500
+    width = OVERVIEW_CARD_WIDTH
     compact = height <= 130
     title_y = 34 if compact else 54
     subtitle_y = 58 if compact else 92
@@ -252,7 +252,7 @@ def compact_count(value: object) -> str:
 def repository_card_svg(
     project: dict[str, str], repository: dict[str, object] | None
 ) -> str:
-    width = 500
+    width = OVERVIEW_CARD_WIDTH
     height = 132
     title = html.escape(project["title"], quote=True)
     full_name = html.escape(
@@ -285,28 +285,13 @@ def repository_card_svg(
     updated_value = repository.get("pushed_at") if repository else None
     updated = str(updated_value)[:10] if updated_value else "unavailable"
 
-    role = project.get("role", "")
-    role_markup = ""
-    if role:
-        safe_role = html.escape(role, quote=True)
-        role_width = max(78, 24 + len(role) * 7)
-        role_x = width - 24 - role_width
-        role_markup = (
-            f'<rect x="{role_x}" y="16" width="{role_width}" height="24" rx="6" '
-            'fill="#251b3d" stroke="#8b6fe8" stroke-opacity="0.7"/>'
-            f'<text x="{role_x + role_width / 2:.1f}" y="32" text-anchor="middle" '
-            'fill="#c8a8ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" '
-            f'font-size="11" font-weight="700">{safe_role}</text>'
-        )
-
     return textwrap.dedent(
         f"""\
-        <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="{title} repository card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="{title} repository card">
           <!-- generated-by: build_readme.py repository_card_svg v1 -->
           <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="7" fill="#1a1b27" stroke="#2f334d"/>
           <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
           <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
-          {role_markup}
           <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
           <circle cx="28" cy="115" r="5" fill="{language_color}"/>
           <text x="40" y="119" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
@@ -560,7 +545,7 @@ def language_stats_svg(stats: dict[str, object]) -> str:
     }
     dominant_pct = (dominant["commits"] / total_commits * 100) if total_commits else 0
 
-    width = 500
+    width = OVERVIEW_CARD_WIDTH
     height = 420
     chart_cx = 118
     chart_cy = 180
@@ -756,7 +741,7 @@ def project_card(project: dict[str, str]) -> str:
     return textwrap.dedent(
         f"""\
         <a href="{url}">
-          <img src="./assets/pin-{slug}.svg" alt="{alt}" width="100%">
+          <img src="./assets/pin-{slug}.svg" alt="{alt}" width="{OVERVIEW_CARD_WIDTH}">
         </a>
         """
     ).strip()
@@ -870,15 +855,15 @@ def render_readme() -> str:
 
         **Stats**
 
-        <img src="./github-stats.svg" alt="Thefool's GitHub Stats" width="100%">
+        <img src="./github-stats.svg" alt="Thefool's GitHub Stats" width="{OVERVIEW_CARD_WIDTH}">
 
         **Language Stats**
 
-        <img src="./assets/language-stats.svg" alt="Language Stats by Commits" width="100%">
+        <img src="./assets/language-stats.svg" alt="Language Stats by Commits" width="{OVERVIEW_CARD_WIDTH}">
 
         **3D Contribution**
 
-        <img src="./profile-3d-contrib/profile-night-rainbow.svg" alt="GitHub Profile 3D Contribution" width="100%">
+        <img src="./profile-3d-contrib/profile-night-rainbow.svg" alt="GitHub Profile 3D Contribution" width="{OVERVIEW_CARD_WIDTH}">
 
         **Pinned Projects**
 

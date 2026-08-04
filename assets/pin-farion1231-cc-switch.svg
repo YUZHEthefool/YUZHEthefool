@@ -1,9 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="132" viewBox="0 0 500 132" role="img" aria-label="CC Switch repository card">
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="132" viewBox="0 0 500 132" preserveAspectRatio="xMinYMin meet" role="img" aria-label="CC Switch repository card">
           <!-- generated-by: build_readme.py repository_card_svg v1 -->
           <rect x="1" y="1" width="498" height="130" rx="7" fill="#1a1b27" stroke="#2f334d"/>
           <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">CC Switch</text>
           <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">farion1231/cc-switch</text>
-          <rect x="382" y="16" width="94" height="24" rx="6" fill="#251b3d" stroke="#8b6fe8" stroke-opacity="0.7"/><text x="429.0" y="32" text-anchor="middle" fill="#c8a8ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">Maintainer</text>
           <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5"><tspan x="24" dy="0">Maintainer of the cross-platform AI coding assistant manager;</tspan>
 <tspan x="24" dy="17">working on pricing sync and Grok Build support.</tspan></text>
           <circle cx="28" cy="115" r="5" fill="#f7812b"/>
