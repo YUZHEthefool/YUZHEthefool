@@ -1189,11 +1189,11 @@ def render_readme() -> str:
         </td>
         <td width="42%" valign="top">
 
-        <img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif" width="{OVERVIEW_CARD_WIDTH}" alt="Coding">
+        <img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif" width="100%" alt="Coding">
 
         <br>
 
-        <img src="./assets/focus-card.svg" width="{OVERVIEW_CARD_WIDTH}" alt="Current Focus">
+        <img src="./assets/focus-card.svg" width="100%" alt="Current Focus">
 
         </td>
         </tr>
