@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import textwrap
+import unicodedata
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -16,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.resolve()
 ASSETS = ROOT / "assets"
+PINNED_PROJECTS_CACHE = ASSETS / "pinned-projects.json"
 
 USERNAME = "YUZHEthefool"
 STATS_BASE_URL = (
@@ -33,23 +35,15 @@ GITHUB_TOKEN = (
 README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
 OVERVIEW_CARD_WIDTH = 500
-REPOSITORY_CARD_HEIGHT = 204
+PINNED_PROJECT_LIMIT = 6
+PINNED_PROJECTS_TARGET_HEIGHT = 816
+REPOSITORY_CARD_MIN_HEIGHT = 132
+REPOSITORY_CARD_MAX_HEIGHT = 204
+FOCUS_PROJECT_LIMIT = 4
 STATS_CACHE_SECONDS = 21600
 LANGUAGE_WINDOW_DAYS = 365
 
-PROJECTS = [
-    {
-        "owner": "YUZHEthefool",
-        "repo": "Fool",
-        "title": "Fool",
-        "description": "A modern Rust shell with native AI assistance.",
-    },
-    {
-        "owner": "Zero-kernel",
-        "repo": "Zero-os",
-        "title": "Zero-OS",
-        "description": "A security-first monolithic kernel written in pure Rust.",
-    },
+FALLBACK_PROJECTS = [
     {
         "owner": "farion1231",
         "repo": "cc-switch",
@@ -57,12 +51,45 @@ PROJECTS = [
         "description": "Maintainer of the cross-platform AI coding assistant manager; working on pricing sync and Grok Build support.",
     },
     {
+        "owner": "apache",
+        "repo": "arrow-rs",
+        "title": "arrow-rs",
+        "description": "Official Rust implementation of Apache Arrow.",
+    },
+    {
+        "owner": "rust-lang",
+        "repo": "rust",
+        "title": "rust",
+        "description": "Empowering everyone to build reliable and efficient software.",
+    },
+    {
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "title": "rust-analyzer",
+        "description": "A Rust compiler front-end for IDEs.",
+    },
+    {
+        "owner": "Zero-kernel",
+        "repo": "Nilix",
+        "title": "Nilix",
+        "description": "A monolithic kernel in pure Rust, inspired by the Linux kernel.",
+    },
+    {
         "owner": "Xero-Team",
         "repo": "zpdf",
         "title": "zpdf",
-        "description": "PDF tooling from the Xero-Team ecosystem.",
+        "description": "A PDF parsing library written in pure Rust.",
     },
 ]
+
+PROJECT_OVERRIDES = {
+    "farion1231/cc-switch": {
+        "title": "CC Switch",
+        "description": "Maintainer of the cross-platform AI coding assistant manager; working on pricing sync and Grok Build support.",
+    },
+}
+
+PROJECTS = [project.copy() for project in FALLBACK_PROJECTS]
 
 TECH_STACK = [
     ("Rust", "000000", "rust", "white"),
@@ -141,6 +168,37 @@ def project_slug(project: dict[str, str]) -> str:
     return re.sub(r"[^a-z0-9]+", "-", raw).strip("-")
 
 
+def repository_card_height() -> int:
+    project_count = max(1, len(PROJECTS))
+    calculated = round(PINNED_PROJECTS_TARGET_HEIGHT / project_count)
+    return max(
+        REPOSITORY_CARD_MIN_HEIGHT,
+        min(REPOSITORY_CARD_MAX_HEIGHT, calculated),
+    )
+
+
+def wrap_project_description(description: str) -> list[str]:
+    has_wide_characters = any(
+        unicodedata.east_asian_width(character) in {"W", "F"}
+        for character in description
+    )
+    return textwrap.wrap(
+        description,
+        width=34 if has_wide_characters else 66,
+        max_lines=2,
+        placeholder="...",
+    ) or [""]
+
+
+def focus_description(description: str) -> str:
+    has_wide_characters = any(
+        unicodedata.east_asian_width(character) in {"W", "F"}
+        for character in description
+    )
+    limit = 30 if has_wide_characters else 54
+    return description if len(description) <= limit else description[: limit - 3] + "..."
+
+
 def sync_project_pin_assets() -> None:
     ASSETS.mkdir(parents=True, exist_ok=True)
     expected = {
@@ -152,6 +210,7 @@ def sync_project_pin_assets() -> None:
         if target not in expected:
             target.unlink()
             print(f"removed stale {target.relative_to(ROOT)}")
+
 
 def sanitize_svg(data: str) -> str:
     data = data.strip().lstrip("\ufeff")
@@ -254,7 +313,7 @@ def repository_card_svg(
     project: dict[str, str], repository: dict[str, object] | None
 ) -> str:
     width = OVERVIEW_CARD_WIDTH
-    height = REPOSITORY_CARD_HEIGHT
+    height = repository_card_height()
     title = html.escape(project["title"], quote=True)
     full_name = html.escape(
         str(repository.get("full_name"))
@@ -262,13 +321,7 @@ def repository_card_svg(
         else f'{project["owner"]}/{project["repo"]}',
         quote=True,
     )
-    description = project["description"]
-    description_lines = textwrap.wrap(
-        description,
-        width=66,
-        max_lines=2,
-        placeholder="...",
-    ) or [""]
+    description_lines = wrap_project_description(project["description"])
     description_spans = "\n".join(
         f'<tspan x="24" dy="{0 if index == 0 else 17}">'
         f"{html.escape(line, quote=True)}</tspan>"
@@ -291,11 +344,8 @@ def repository_card_svg(
     license_value = license_data.get("spdx_id") if isinstance(license_data, dict) else None
     license_name = str(license_value) if license_value and license_value != "NOASSERTION" else "-"
 
-    return textwrap.dedent(
-        f"""\
-        <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="{title} repository card">
-          <!-- generated-by: build_readme.py repository_card_svg v2 -->
-          <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="7" fill="#1a1b27" stroke="#2f334d"/>
+    if height >= REPOSITORY_CARD_MAX_HEIGHT:
+        content = f"""
           <text x="24" y="34" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
           <text x="24" y="55" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
           <text x="24" y="84" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
@@ -307,6 +357,26 @@ def repository_card_svg(
           <text x="380" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
           <text x="24" y="181" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Branch {html.escape(default_branch, quote=True)}</text>
           <text x="476" y="181" text-anchor="end" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
+        """
+    else:
+        metadata_y = height - 13
+        content = f"""
+          <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
+          <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
+          <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
+          <circle cx="28" cy="{metadata_y - 4}" r="5" fill="{language_color}"/>
+          <text x="40" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
+          <text x="178" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars {stars}</text>
+          <text x="258" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
+          <text x="350" y="{metadata_y}" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
+        """
+
+    return textwrap.dedent(
+        f"""\
+        <svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="{title} repository card">
+          <!-- generated-by: build_readme.py repository_card_svg v3 -->
+          <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="7" fill="#1a1b27" stroke="#2f334d"/>
+        {content}
         </svg>
         """
     ).strip()
@@ -393,6 +463,127 @@ def graphql_request(query: str, variables: dict[str, object]) -> dict[str, objec
     if payload.get("errors"):
         raise RuntimeError(payload["errors"])
     return payload["data"]
+
+
+def normalize_project(value: object) -> dict[str, str] | None:
+    if not isinstance(value, dict):
+        return None
+    owner = value.get("owner")
+    repo = value.get("repo")
+    title = value.get("title")
+    description = value.get("description")
+    if not all(isinstance(item, str) and item.strip() for item in (owner, repo, title)):
+        return None
+    return {
+        "owner": owner.strip(),
+        "repo": repo.strip(),
+        "title": title.strip(),
+        "description": description.strip()
+        if isinstance(description, str) and description.strip()
+        else f"{title.strip()} repository.",
+    }
+
+
+def fetch_pinned_projects() -> list[dict[str, str]]:
+    query = """
+    query($login: String!, $count: Int!) {
+      user(login: $login) {
+        pinnedItems(first: $count, types: REPOSITORY) {
+          nodes {
+            ... on Repository {
+              name
+              description
+              owner {
+                login
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    data = graphql_request(
+        query,
+        {"login": USERNAME, "count": PINNED_PROJECT_LIMIT},
+    )
+    user = data.get("user")
+    if not isinstance(user, dict):
+        raise RuntimeError(f"GitHub user {USERNAME} was not found")
+    pinned_items = user.get("pinnedItems")
+    nodes = pinned_items.get("nodes") if isinstance(pinned_items, dict) else None
+    if not isinstance(nodes, list):
+        raise RuntimeError("GitHub pinnedItems response is missing nodes")
+
+    projects = []
+    for node in nodes:
+        if not isinstance(node, dict):
+            continue
+        owner_data = node.get("owner")
+        owner = owner_data.get("login") if isinstance(owner_data, dict) else None
+        repo = node.get("name")
+        if not isinstance(owner, str) or not isinstance(repo, str):
+            continue
+        key = f"{owner}/{repo}".lower()
+        override = PROJECT_OVERRIDES.get(key, {})
+        project = normalize_project(
+            {
+                "owner": owner,
+                "repo": repo,
+                "title": override.get("title") or repo,
+                "description": override.get("description")
+                or node.get("description")
+                or f"{repo} repository.",
+            }
+        )
+        if project:
+            projects.append(project)
+
+    if not projects:
+        raise RuntimeError("GitHub profile has no pinned repositories")
+    return projects
+
+
+def read_pinned_projects_cache() -> list[dict[str, str]]:
+    if not PINNED_PROJECTS_CACHE.exists():
+        return []
+    try:
+        payload = json.loads(PINNED_PROJECTS_CACHE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    if not isinstance(payload, list):
+        return []
+    return [project for item in payload if (project := normalize_project(item))]
+
+
+def write_pinned_projects_cache(projects: list[dict[str, str]]) -> None:
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    PINNED_PROJECTS_CACHE.write_text(
+        json.dumps(projects, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    print(f"updated {PINNED_PROJECTS_CACHE.relative_to(ROOT)}")
+
+
+def load_projects() -> None:
+    global PROJECTS
+
+    if not README_OFFLINE:
+        try:
+            PROJECTS = fetch_pinned_projects()
+            write_pinned_projects_cache(PROJECTS)
+            print(f"loaded {len(PROJECTS)} pinned repositories from GitHub")
+            return
+        except Exception as exc:  # noqa: BLE001 - cached projects keep README stable
+            print(f"could not load GitHub pinned repositories: {exc}", file=sys.stderr)
+
+    cached = read_pinned_projects_cache()
+    if cached:
+        PROJECTS = cached
+        print(f"loaded {len(PROJECTS)} pinned repositories from cache")
+        return
+
+    PROJECTS = [project.copy() for project in FALLBACK_PROJECTS]
+    print(f"using {len(PROJECTS)} fallback pinned repositories")
 
 
 def normalize_language(language: str) -> str:
@@ -669,11 +860,14 @@ def write_language_stats() -> None:
 
 
 def focus_card_svg() -> str:
+    row_colors = ["#f7812b", "#58a6ff", "#8b6fe8", "#73c255"]
     rows = [
-        ("Fool", "AI-native Rust shell", "#f7812b"),
-        ("Zero-OS", "Security-first Rust kernel", "#58a6ff"),
-        ("CC Switch", "Maintaining a cross-platform AI assistant manager", "#8b6fe8"),
-        ("zpdf", "PDF tooling from the Xero-Team ecosystem", "#73c255"),
+        (
+            html.escape(project["title"], quote=True),
+            html.escape(focus_description(project["description"]), quote=True),
+            row_colors[index],
+        )
+        for index, project in enumerate(PROJECTS[:FOCUS_PROJECT_LIMIT])
     ]
     tags = [
         ("AI Systems", "#58a6ff"),
@@ -926,6 +1120,7 @@ def refresh_generated_assets() -> None:
 
 
 def main() -> None:
+    load_projects()
     refresh_generated_assets()
     (ROOT / "README.md").write_text(render_readme().strip() + "\n", encoding="utf-8")
     print("updated README.md")

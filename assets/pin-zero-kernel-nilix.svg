@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="136" viewBox="0 0 500 136" preserveAspectRatio="xMinYMin meet" role="img" aria-label="Nilix repository card">
+  <!-- generated-by: build_readme.py repository_card_svg v3 -->
+  <rect x="1" y="1" width="498" height="134" rx="7" fill="#1a1b27" stroke="#2f334d"/>
+
+  <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">Nilix</text>
+  <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Zero-kernel/Nilix</text>
+  <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5"><tspan x="24" dy="0">A monolithic kernel in pure Rust, inspired by the Linux kernel</tspan></text>
+  <circle cx="28" cy="119" r="5" fill="#f7812b"/>
+  <text x="40" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Rust</text>
+  <text x="178" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars 23</text>
+  <text x="258" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks 7</text>
+  <text x="350" y="123" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated 2026-08-16</text>
+
+</svg>

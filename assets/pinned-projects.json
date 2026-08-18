@@ -1,0 +1,38 @@
+[
+  {
+    "description": "Maintainer of the cross-platform AI coding assistant manager; working on pricing sync and Grok Build support.",
+    "owner": "farion1231",
+    "repo": "cc-switch",
+    "title": "CC Switch"
+  },
+  {
+    "description": "Official Rust implementation of Apache Arrow",
+    "owner": "apache",
+    "repo": "arrow-rs",
+    "title": "arrow-rs"
+  },
+  {
+    "description": "Empowering everyone to build reliable and efficient software.",
+    "owner": "rust-lang",
+    "repo": "rust",
+    "title": "rust"
+  },
+  {
+    "description": "A Rust compiler front-end for IDEs",
+    "owner": "rust-lang",
+    "repo": "rust-analyzer",
+    "title": "rust-analyzer"
+  },
+  {
+    "description": "A monolithic kernel in pure Rust, inspired by the Linux kernel",
+    "owner": "Zero-kernel",
+    "repo": "Nilix",
+    "title": "Nilix"
+  },
+  {
+    "description": "A PDF parsing library written in pure Rust.",
+    "owner": "Xero-Team",
+    "repo": "zpdf",
+    "title": "zpdf"
+  }
+]

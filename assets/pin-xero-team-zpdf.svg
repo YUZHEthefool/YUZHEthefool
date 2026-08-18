@@ -1,15 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="204" viewBox="0 0 500 204" preserveAspectRatio="xMinYMin meet" role="img" aria-label="zpdf repository card">
-  <!-- generated-by: build_readme.py repository_card_svg v2 -->
-  <rect x="1" y="1" width="498" height="202" rx="7" fill="#1a1b27" stroke="#2f334d"/>
-  <text x="24" y="34" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">zpdf</text>
-  <text x="24" y="55" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Xero-Team/zpdf</text>
-  <text x="24" y="84" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5"><tspan x="24" dy="0">PDF tooling from the Xero-Team ecosystem.</tspan></text>
-  <line x1="24" y1="126" x2="476" y2="126" stroke="#2f334d"/>
-  <circle cx="28" cy="149" r="5" fill="#f7812b"/>
-  <text x="40" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Rust</text>
-  <text x="165" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">License MIT</text>
-  <text x="280" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars 8</text>
-  <text x="380" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks 5</text>
-  <text x="24" y="181" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Branch main</text>
-  <text x="476" y="181" text-anchor="end" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated 2026-08-17</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="136" viewBox="0 0 500 136" preserveAspectRatio="xMinYMin meet" role="img" aria-label="zpdf repository card">
+  <!-- generated-by: build_readme.py repository_card_svg v3 -->
+  <rect x="1" y="1" width="498" height="134" rx="7" fill="#1a1b27" stroke="#2f334d"/>
+
+  <text x="24" y="30" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">zpdf</text>
+  <text x="24" y="48" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Xero-Team/zpdf</text>
+  <text x="24" y="72" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5"><tspan x="24" dy="0">A PDF parsing library written in pure Rust.</tspan></text>
+  <circle cx="28" cy="119" r="5" fill="#f7812b"/>
+  <text x="40" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Rust</text>
+  <text x="178" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars 8</text>
+  <text x="258" y="123" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks 5</text>
+  <text x="350" y="123" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated 2026-08-17</text>
+
 </svg>
