@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent.resolve()
 ASSETS = ROOT / "assets"
 PINNED_PROJECTS_CACHE = ASSETS / "pinned-projects.json"
+METRICS_SVG = ROOT / "github-metrics.svg"
 
 USERNAME = "YUZHEthefool"
 STATS_BASE_URL = (
@@ -36,10 +37,16 @@ README_OFFLINE = os.environ.get("README_OFFLINE") == "1"
 THEME = "tokyonight"
 OVERVIEW_CARD_WIDTH = 500
 PINNED_PROJECT_LIMIT = 6
-PINNED_PROJECTS_TARGET_HEIGHT = 816
+PINNED_PROJECTS_BASE_TARGET_HEIGHT = 816
 REPOSITORY_CARD_MIN_HEIGHT = 132
 REPOSITORY_CARD_MAX_HEIGHT = 204
 FOCUS_PROJECT_LIMIT = 4
+# Calibrated for the README's 58/42 overview columns.
+METRICS_BASE_HEIGHT = 1334
+METRICS_TO_PIN_HEIGHT_RATIO = 1.5
+PINNED_REPOSITORY_WEIGHT = 2.0
+LANGUAGE_REPOSITORY_LIMIT = 100
+COMMIT_PAGE_SIZE = 100
 STATS_CACHE_SECONDS = 21600
 LANGUAGE_WINDOW_DAYS = 365
 
@@ -170,7 +177,17 @@ def project_slug(project: dict[str, str]) -> str:
 
 def repository_card_height() -> int:
     project_count = max(1, len(PROJECTS))
-    calculated = round(PINNED_PROJECTS_TARGET_HEIGHT / project_count)
+    metrics_height = METRICS_BASE_HEIGHT
+    try:
+        root = ET.fromstring(METRICS_SVG.read_text(encoding="utf-8"))
+        metrics_height = int(float(root.attrib["height"]))
+    except (OSError, ET.ParseError, KeyError, TypeError, ValueError):
+        pass
+
+    target_height = PINNED_PROJECTS_BASE_TARGET_HEIGHT + round(
+        (metrics_height - METRICS_BASE_HEIGHT) * METRICS_TO_PIN_HEIGHT_RATIO
+    )
+    calculated = round(target_height / project_count)
     return max(
         REPOSITORY_CARD_MIN_HEIGHT,
         min(REPOSITORY_CARD_MAX_HEIGHT, calculated),
@@ -357,6 +374,20 @@ def repository_card_svg(
           <text x="380" y="153" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
           <text x="24" y="181" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Branch {html.escape(default_branch, quote=True)}</text>
           <text x="476" y="181" text-anchor="end" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
+        """
+    elif height >= 160:
+        metadata_y = height - 15
+        separator_y = height - 43
+        content = f"""
+          <text x="24" y="34" fill="#70a5fd" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="18" font-weight="700">{title}</text>
+          <text x="24" y="55" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{full_name}</text>
+          <text x="24" y="84" fill="#c3d3ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5">{description_spans}</text>
+          <line x1="24" y1="{separator_y}" x2="476" y2="{separator_y}" stroke="#2f334d"/>
+          <circle cx="28" cy="{metadata_y - 4}" r="5" fill="{language_color}"/>
+          <text x="40" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">{html.escape(language, quote=True)}</text>
+          <text x="178" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Stars {stars}</text>
+          <text x="258" y="{metadata_y}" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">Forks {forks}</text>
+          <text x="350" y="{metadata_y}" fill="#7982a9" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated {updated}</text>
         """
     else:
         metadata_y = height - 13
@@ -592,75 +623,202 @@ def normalize_language(language: str) -> str:
     return language
 
 
-def make_repository_alias(index: int) -> str:
-    return f"repo{index}"
+def repository_key(owner: str, repo: str) -> str:
+    return f"{owner}/{repo}".casefold()
+
+
+def fetch_language_repositories(
+    limit: int,
+) -> tuple[str, list[dict[str, object]]]:
+    query = """
+    query($login: String!, $limit: Int!) {
+      user(login: $login) {
+        id
+        repositoriesContributedTo(
+          first: $limit
+          contributionTypes: [COMMIT]
+          includeUserRepositories: true
+          orderBy: {field: PUSHED_AT, direction: DESC}
+        ) {
+          nodes {
+            name
+            owner {
+              login
+            }
+            isArchived
+            isFork
+            languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+              totalSize
+              edges {
+                size
+                node {
+                  name
+                  color
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    data = graphql_request(query, {"login": USERNAME, "limit": limit})
+    user = data.get("user")
+    if not isinstance(user, dict) or not isinstance(user.get("id"), str):
+        raise RuntimeError(f"GitHub user {USERNAME} was not found")
+    contributed = user.get("repositoriesContributedTo")
+    nodes = contributed.get("nodes") if isinstance(contributed, dict) else None
+    if not isinstance(nodes, list):
+        raise RuntimeError("GitHub contribution repository response is invalid")
+
+    repositories = []
+    seen: set[str] = set()
+    for node in nodes:
+        if not isinstance(node, dict) or node.get("isArchived") or node.get("isFork"):
+            continue
+        owner = node.get("owner")
+        owner_login = owner.get("login") if isinstance(owner, dict) else None
+        name = node.get("name")
+        if not isinstance(owner_login, str) or not isinstance(name, str):
+            continue
+        key = repository_key(owner_login, name)
+        if key in seen:
+            continue
+        seen.add(key)
+        repositories.append(
+            {
+                "owner": owner_login,
+                "repo": name,
+                "languages": node.get("languages") or {},
+            }
+        )
+    return user["id"], repositories
+
+
+def fetch_user_commit_messages(
+    repository: dict[str, object], author_id: str, since: str
+) -> list[str]:
+    query = """
+    query(
+      $owner: String!
+      $name: String!
+      $since: GitTimestamp!
+      $author: ID!
+      $cursor: String
+      $pageSize: Int!
+    ) {
+      repository(owner: $owner, name: $name) {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              history(
+                first: $pageSize
+                after: $cursor
+                since: $since
+                author: {id: $author}
+              ) {
+                nodes {
+                  messageHeadline
+                }
+                pageInfo {
+                  hasNextPage
+                  endCursor
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    messages: list[str] = []
+    cursor: str | None = None
+    for _ in range(20):
+        data = graphql_request(
+            query,
+            {
+                "owner": repository["owner"],
+                "name": repository["repo"],
+                "since": since,
+                "author": author_id,
+                "cursor": cursor,
+                "pageSize": COMMIT_PAGE_SIZE,
+            },
+        )
+        repo_data = data.get("repository")
+        default_branch = repo_data.get("defaultBranchRef") if isinstance(repo_data, dict) else None
+        target = default_branch.get("target") if isinstance(default_branch, dict) else None
+        history = target.get("history") if isinstance(target, dict) else None
+        if not isinstance(history, dict):
+            break
+        nodes = history.get("nodes") or []
+        messages.extend(
+            str(node.get("messageHeadline") or "")
+            for node in nodes
+            if isinstance(node, dict)
+        )
+        page_info = history.get("pageInfo") or {}
+        if not page_info.get("hasNextPage") or not page_info.get("endCursor"):
+            break
+        cursor = str(page_info["endCursor"])
+    return messages
+
+
+def is_automated_commit(message: str) -> bool:
+    normalized = message.casefold().strip()
+    return (
+        "generated readme" in normalized
+        or "github-metrics.svg" in normalized
+        or normalized == "generated"
+        or "profile-3d" in normalized
+    )
 
 
 def fetch_language_stats() -> dict[str, object]:
     since = (
         dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LANGUAGE_WINDOW_DAYS)
     ).isoformat(timespec="seconds")
-    query_parts = [
-        "query($since: GitTimestamp!) {",
-    ]
-    for index, project in enumerate(PROJECTS):
-        alias = make_repository_alias(index)
-        query_parts.append(
-            f"""
-            {alias}: repository(owner: "{project['owner']}", name: "{project['repo']}") {{
-              defaultBranchRef {{
-                target {{
-                  ... on Commit {{
-                    history(since: $since) {{
-                      totalCount
-                    }}
-                  }}
-                }}
-              }}
-              languages(first: 10, orderBy: {{field: SIZE, direction: DESC}}) {{
-                totalSize
-                edges {{
-                  size
-                  node {{
-                    name
-                    color
-                  }}
-                }}
-              }}
-            }}
-            """
-        )
-    query_parts.append("}")
-    query = "\n".join(query_parts)
+    author_id, repositories = fetch_language_repositories(LANGUAGE_REPOSITORY_LIMIT)
+    pinned_keys = {
+        repository_key(project["owner"], project["repo"]) for project in PROJECTS
+    }
 
     repos = 0
-    total_commits = 0
+    total_commits = 0.0
     language_commits: dict[str, float] = {}
     language_colors: dict[str, str] = {}
-
-    data = graphql_request(query, {"since": since})
-    for index, project in enumerate(PROJECTS):
-        repo = data.get(make_repository_alias(index))
-        if not repo:
+    profile_key = repository_key(USERNAME, USERNAME)
+    for repository in repositories:
+        if repository_key(repository["owner"], repository["repo"]) == profile_key:
             continue
-        default_branch = repo.get("defaultBranchRef")
-        if not default_branch:
+        try:
+            messages = fetch_user_commit_messages(repository, author_id, since)
+        except Exception as exc:  # noqa: BLE001 - one inaccessible repo should not stop all stats
+            print(
+                f"could not read commits for {repository['owner']}/{repository['repo']}: {exc}",
+                file=sys.stderr,
+            )
             continue
-        commits = int(default_branch["target"]["history"]["totalCount"])
-        if commits <= 0:
-            continue
-        languages = repo.get("languages") or {}
+        commits = sum(not is_automated_commit(message) for message in messages)
+        languages = repository.get("languages") or {}
         total_size = int(languages.get("totalSize") or 0)
-        if total_size <= 0:
+        if commits <= 0 or total_size <= 0:
             continue
 
+        weight = (
+            PINNED_REPOSITORY_WEIGHT
+            if repository_key(repository["owner"], repository["repo"]) in pinned_keys
+            else 1.0
+        )
+        weighted_commits = commits * weight
         repos += 1
-        total_commits += commits
-        for edge in languages["edges"]:
+        total_commits += weighted_commits
+        for edge in languages.get("edges", []):
             language = normalize_language(edge["node"]["name"])
             size = int(edge["size"])
-            weighted_commits = commits * (size / total_size)
-            language_commits[language] = language_commits.get(language, 0.0) + weighted_commits
+            language_commits[language] = language_commits.get(language, 0.0) + (
+                weighted_commits * (size / total_size)
+            )
             color = (
                 LANGUAGE_FALLBACK_COLORS.get(language)
                 if language == "C/C++"
@@ -668,6 +826,9 @@ def fetch_language_stats() -> dict[str, object]:
             )
             if color:
                 language_colors[language] = color
+
+    if not language_commits:
+        raise RuntimeError("No recent user commits found in contributed repositories")
 
     rounded = [
         {
@@ -681,7 +842,6 @@ def fetch_language_stats() -> dict[str, object]:
             language_commits.items(), key=lambda item: item[1], reverse=True
         )
     ]
-
     top = rounded[:5]
     other_commits = sum(item["commits"] for item in rounded[5:])
     if other_commits:
@@ -696,11 +856,11 @@ def fetch_language_stats() -> dict[str, object]:
     normalized_total = sum(item["commits"] for item in top)
     return {
         "languages": top,
-        "total_commits": normalized_total or total_commits,
+        "total_commits": normalized_total or int(round(total_commits)),
         "repositories": repos,
         "days": LANGUAGE_WINDOW_DAYS,
         "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d"),
-        "scope": "flagship repositories",
+        "scope": "contributing repositories",
     }
 
 
@@ -760,7 +920,7 @@ def language_stats_svg(stats: dict[str, object]) -> str:
     percent_x = 472
 
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="Language Stats by Commits">',
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="Language Stats by Weighted Commits">',
         "<!-- generated-by: build_readme.py language_stats_svg v2 -->",
         "<defs>",
         '<filter id="shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/></filter>',
@@ -768,10 +928,10 @@ def language_stats_svg(stats: dict[str, object]) -> str:
         "</defs>",
         '<rect x="1" y="1" width="498" height="418" rx="14" fill="url(#panel)" stroke="#202b38"/>',
         '<text x="24" y="38" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="23" font-weight="700">Language Stats</text>',
-        '<text x="205" y="38" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="16" font-weight="700">(by Commits)</text>',
+        '<text x="205" y="38" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="14" font-weight="700">(weighted commits)</text>',
         '<rect x="356" y="18" width="120" height="28" rx="14" fill="#132235"/>',
         '<text x="373" y="37" fill="#58a6ff" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12" font-weight="700">GraphQL API</text>',
-        f'<text x="24" y="66" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Based on {total_commits:,} commits across {repos} {html.escape(scope)} - Last 12 months</text>',
+        f'<text x="24" y="66" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Based on {total_commits:,} weighted commits from {repos} {html.escape(scope)} - Last 12 months</text>',
         '<rect x="24" y="84" width="452" height="230" rx="12" fill="#071018" stroke="#1b2733"/>',
         '<rect x="24" y="330" width="452" height="58" rx="12" fill="#071018" stroke="#1b2733"/>',
     ]
@@ -813,14 +973,14 @@ def language_stats_svg(stats: dict[str, object]) -> str:
     parts.extend(
         [
             f'<text x="62" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">{total_commits:,}</text>',
-            '<text x="62" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Commits</text>',
+            '<text x="62" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Weighted Commits</text>',
             f'<text x="184" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">{repos}</text>',
             '<text x="184" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Repositories</text>',
             f'<text x="306" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="17" font-weight="800">{days}</text>',
             '<text x="306" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Days</text>',
             f'<text x="426" y="359" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">{updated}</text>',
             '<text x="426" y="376" text-anchor="middle" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Updated</text>',
-            '<text x="24" y="406" fill="#8f9bad" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Data source: GitHub GraphQL API - flagship commit history weighted by repo languages</text>',
+            f'<text x="24" y="406" fill="#8f9bad" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="10.5">Data source: GitHub GraphQL API - 365-day user commits; pinned repositories weighted x{PINNED_REPOSITORY_WEIGHT:g}</text>',
             "</svg>",
         ]
     )
@@ -851,7 +1011,7 @@ def write_language_stats() -> None:
                 "repositories": len(PROJECTS),
                 "days": LANGUAGE_WINDOW_DAYS,
                 "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d"),
-                "scope": "flagship repositories",
+                "scope": "contributing repositories",
             }
         )
         )
@@ -1062,7 +1222,7 @@ def render_readme() -> str:
 
         **Language Stats**
 
-        <img src="./assets/language-stats.svg" alt="Language Stats by Commits" width="{OVERVIEW_CARD_WIDTH}">
+        <img src="./assets/language-stats.svg" alt="Language Stats by Weighted Commits" width="{OVERVIEW_CARD_WIDTH}">
 
         **3D Contribution**
 
