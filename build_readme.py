@@ -40,7 +40,7 @@ PINNED_PROJECT_LIMIT = 6
 PINNED_PROJECTS_BASE_TARGET_HEIGHT = 816
 REPOSITORY_CARD_MIN_HEIGHT = 132
 REPOSITORY_CARD_MAX_HEIGHT = 204
-FOCUS_PROJECT_LIMIT = 4
+FOCUS_PROJECT_LIMIT = PINNED_PROJECT_LIMIT
 # Calibrated for the README's 58/42 overview columns.
 METRICS_BASE_HEIGHT = 1334
 METRICS_TO_PIN_HEIGHT_RATIO = 1.5
@@ -1020,7 +1020,7 @@ def write_language_stats() -> None:
 
 
 def focus_card_svg() -> str:
-    row_colors = ["#f7812b", "#58a6ff", "#8b6fe8", "#73c255"]
+    row_colors = ["#f7812b", "#58a6ff", "#8b6fe8", "#73c255", "#f59e0b", "#22c55e"]
     rows = [
         (
             html.escape(project["title"], quote=True),
@@ -1035,20 +1035,24 @@ def focus_card_svg() -> str:
         ("Rust", "#73c255"),
         ("Tooling", "#8b6fe8"),
     ]
+    row_start_y = 92
+    row_step = 47
+    tag_y = row_start_y + len(rows) * row_step - 8
+    height = max(310, tag_y + 38)
 
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="310" viewBox="0 0 500 310" role="img" aria-label="Current Focus">',
-        "<!-- generated-by: build_readme.py focus_card_svg v1 -->",
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{OVERVIEW_CARD_WIDTH}" height="{height}" viewBox="0 0 {OVERVIEW_CARD_WIDTH} {height}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="Current Focus">',
+        "<!-- generated-by: build_readme.py focus_card_svg v2 -->",
         "<defs>",
         '<linearGradient id="focusPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101923"/><stop offset="1" stop-color="#060a10"/></linearGradient>',
         '<filter id="focusShadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.32"/></filter>',
         "</defs>",
-        '<rect x="1" y="1" width="498" height="308" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>',
+        f'<rect x="1" y="1" width="{OVERVIEW_CARD_WIDTH - 2}" height="{height - 2}" rx="14" fill="url(#focusPanel)" stroke="#202b38"/>',
         '<text x="24" y="38" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="23" font-weight="800">Current Focus</text>',
         '<text x="24" y="64" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Building practical systems where AI meets low-level software.</text>',
     ]
 
-    y = 92
+    y = row_start_y
     for title, subtitle, color in rows:
         parts.extend(
             [
@@ -1065,8 +1069,8 @@ def focus_card_svg() -> str:
         width = 72 + max(0, len(label) - 6) * 4
         parts.extend(
             [
-                f'<rect x="{tag_x}" y="272" width="{width}" height="24" rx="12" fill="#101b29" stroke="{color}" stroke-opacity="0.55"/>',
-                f'<text x="{tag_x + width / 2:.1f}" y="288" text-anchor="middle" fill="{color}" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">{label}</text>',
+                f'<rect x="{tag_x}" y="{tag_y}" width="{width}" height="24" rx="12" fill="#101b29" stroke="{color}" stroke-opacity="0.55"/>',
+                f'<text x="{tag_x + width / 2:.1f}" y="{tag_y + 16}" text-anchor="middle" fill="{color}" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11" font-weight="700">{label}</text>',
             ]
         )
         tag_x += width + 10
@@ -1168,7 +1172,7 @@ def render_readme() -> str:
         - Design secure, production-grade OS kernel experiments in Rust.
         - Create intelligent systems that can run close to the hardware.
 
-        **Current Flagship Projects**
+        **Projects I'm Currently Focused On**
 
         {projects_md}
 
@@ -1185,11 +1189,11 @@ def render_readme() -> str:
         </td>
         <td width="42%" valign="top">
 
-        <img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif" width="100%" alt="Coding">
+        <img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif" width="{OVERVIEW_CARD_WIDTH}" alt="Coding">
 
         <br>
 
-        <img src="./assets/focus-card.svg" width="100%" alt="Current Focus">
+        <img src="./assets/focus-card.svg" width="{OVERVIEW_CARD_WIDTH}" alt="Current Focus">
 
         </td>
         </tr>
