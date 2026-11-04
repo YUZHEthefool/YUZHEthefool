@@ -8,7 +8,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">Thefool's GitHub Stats, Rank: A</title>
-        <desc id="descId">Total Stars Earned: 27, Total Commits  (last year) : 2132, Total PRs: 306, Total Issues: 122, Contributed to (last year): 26</desc>
+        <desc id="descId">Total Stars Earned: 27, Total Commits  (last year) : 2144, Total PRs: 313, Total Issues: 123, Contributed to (last year): 26</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -72,7 +72,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 60.40229311901334;
+        stroke-dashoffset: 60.29558368082953;
       }
     }
   
@@ -191,7 +191,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs"
-      >306</text>
+      >313</text>
     </g>
   </g><g transform="translate(0, 75)">
     <g class="stagger" style="animation-delay: 900ms" transform="translate(25, 0)">
@@ -206,7 +206,7 @@
         x="219.01"
         y="12.5"
         data-testid="issues"
-      >122</text>
+      >123</text>
     </g>
   </g><g transform="translate(0, 100)">
     <g class="stagger" style="animation-delay: 1050ms" transform="translate(25, 0)">
