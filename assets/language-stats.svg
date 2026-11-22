@@ -12,8 +12,8 @@
 <text x="24" y="66" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12">Based on 3,376 weighted commits from 21 contributing repositories - Last 12 months</text>
 <rect x="24" y="84" width="452" height="230" rx="12" fill="#071018" stroke="#1b2733"/>
 <rect x="24" y="330" width="452" height="58" rx="12" fill="#071018" stroke="#1b2733"/>
-<path d="M 118.00 104.00 A 76 76 0 1 1 42.18 174.77 L 68.12 176.56 A 50 50 0 1 0 118.00 130.00 Z" fill="#dea584" filter="url(#shadow)"/>
-<path d="M 42.18 174.77 A 76 76 0 0 1 69.27 121.68 L 85.94 141.63 A 50 50 0 0 0 68.12 176.56 Z" fill="#3178c6" filter="url(#shadow)"/>
+<path d="M 118.00 104.00 A 76 76 0 1 1 42.17 174.91 L 68.11 176.65 A 50 50 0 1 0 118.00 130.00 Z" fill="#dea584" filter="url(#shadow)"/>
+<path d="M 42.17 174.91 A 76 76 0 0 1 69.27 121.68 L 85.94 141.63 A 50 50 0 0 0 68.11 176.65 Z" fill="#3178c6" filter="url(#shadow)"/>
 <path d="M 69.27 121.68 A 76 76 0 0 1 94.89 107.60 L 102.80 132.37 A 50 50 0 0 0 85.94 141.63 Z" fill="#3572A5" filter="url(#shadow)"/>
 <path d="M 94.89 107.60 A 76 76 0 0 1 100.89 105.95 L 106.74 131.28 A 50 50 0 0 0 102.80 132.37 Z" fill="#8b6fe8" filter="url(#shadow)"/>
 <path d="M 100.89 105.95 A 76 76 0 0 1 106.45 104.88 L 110.40 130.58 A 50 50 0 0 0 106.74 131.28 Z" fill="#f1e05a" filter="url(#shadow)"/>
@@ -22,16 +22,16 @@
 <text x="118" y="208" text-anchor="middle" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="25" font-weight="800">76.1%</text>
 <circle cx="232" cy="112" r="6" fill="#dea584"/>
 <text x="246" y="117" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">Rust</text>
-<text x="355" y="117" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">2,569</text>
+<text x="355" y="117" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">2,568</text>
 <rect x="368" y="107" width="62" height="9" rx="4.5" fill="#202933"/>
-<rect x="368" y="107" width="47.18" height="9" rx="4.5" fill="#dea584"/>
+<rect x="368" y="107" width="47.16" height="9" rx="4.5" fill="#dea584"/>
 <text x="472" y="117" text-anchor="end" fill="#dea584" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5" font-weight="700">76.1%</text>
 <circle cx="232" cy="146" r="6" fill="#3178c6"/>
 <text x="246" y="151" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">TypeScript</text>
-<text x="355" y="151" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">433</text>
+<text x="355" y="151" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">434</text>
 <rect x="368" y="141" width="62" height="9" rx="4.5" fill="#202933"/>
-<rect x="368" y="141" width="7.95" height="9" rx="4.5" fill="#3178c6"/>
-<text x="472" y="151" text-anchor="end" fill="#3178c6" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5" font-weight="700">12.8%</text>
+<rect x="368" y="141" width="7.97" height="9" rx="4.5" fill="#3178c6"/>
+<text x="472" y="151" text-anchor="end" fill="#3178c6" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11.5" font-weight="700">12.9%</text>
 <circle cx="232" cy="180" r="6" fill="#3572A5"/>
 <text x="246" y="185" fill="#f4f7fb" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="12.5" font-weight="700">Python</text>
 <text x="355" y="185" text-anchor="end" fill="#aab4c3" font-family="Segoe UI, Ubuntu, Arial, sans-serif" font-size="11">208</text>
